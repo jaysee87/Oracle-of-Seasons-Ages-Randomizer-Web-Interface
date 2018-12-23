@@ -1,7 +1,7 @@
 # OOS/A Randomizer Web Interface
 
 ## Big thanks to Jangler and Drenn for their work.
-### Without their work none of this would even be remotely possible. This project just merely wraps around and controls the randomizer Jangler has made.
+### Without their work none of this project would not be possible. This project just merely wraps around and controls the randomizer Jangler has made.
 
 ## Installing locally
 You will need [Nodejs](https://nodejs.org/en/) for the back and front end dependencies:
