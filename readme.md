@@ -40,3 +40,8 @@ After all the npm modules are installed, front end compiled, and db entries crea
 ```
 $ npm start
 ```
+
+## Future Goals
+* Link palette swaps
+* Title screen edits
+* Sprite swapping
