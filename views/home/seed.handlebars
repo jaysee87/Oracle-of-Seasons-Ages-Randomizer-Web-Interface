@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header bg-header">
+      <div class="col">
+        <h3>
+          Oracle of {{#if seed.oos}}Seasons{{else}}Ages{{/if}} Seed: {{seed.seed}} (v{{seed.version}})
+        </h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        {{#if seed.hard}}
+        <li class="list-group-item text-white bg-success"><i class="fas fa-check"></i> Hard Mode</li>
+        {{else}}
+        <li class="list-group-item text-white bg-danger"><i class="fas fa-times" style="margin-left:3px;margin-right:3px"></i> Hard Mode</li>
+        {{/if}}
+
+        {{#if seed.treewarp}}
+        <li class="list-group-item text-white bg-success"><i class="fas fa-check"></i> Tree Warp Enabled</li>
+        {{else}}
+        <li class="list-group-item text-white bg-danger"><i class="fas fa-times" style="margin-left:3px;margin-right:3px"></i> Tree Warp Enabled</li>
+        {{/if}}
+
+        <form action="#" method="POST" enctype="multipart/form-data" id="randomize-settings" style="margin-top:35px">        
+          <div class="custom-file">
+            <input type="file" name="file" id="file" class="custom-file-input" required>
+            <label for="file" class="custom-file-label">Select Oracle of {{#if seed.oos}}Seasons{{else}}Ages{{/if}} Rom (English)</label>
+          </div>     
+        </form>
+
+        <div class="btn-group btn-group-lg" style="margin-top:60px" >
+          <button type="button" class="btn btn-primary btn-download" id="music" disabled>Save Rom (Music)</button>
+          <button type="button" class="btn btn-secondary btn-download" id="no-music" disabled>Save Rom (No Music)</button>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>

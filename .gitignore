@@ -1,0 +1,13 @@
+node_modules
+bin
+testing
+logs
+seedhelper
+nodemon.json
+/utility/.idea
+/utility/*.blob
+/utility/*.iml
+/public/js/**
+/src/node_modules
+/src/dist
+/src/.cache

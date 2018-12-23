@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="card" id="randomize-card" hidden>
+    <div class="card-header bg-header">
+      <h2 id="game-title">Randomize Oracle of Seasons</h2>
+    </div>
+    <div class="card-body">
+      <form action="#" method="POST" enctype="multipart/form-data" id="randomize-settings">
+        <div class="row">
+          <div class="col-sm">
+            <div class="btn-group btn-group-toggle" id="game-selector" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input type="radio" name="game-option" id="seasons" value="oos" autocomplete="off" checked> Seasons
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="game-option" id="ages" value="ooa" autocomplete="off"> Ages
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="custom-file">
+              <input type="file" name="file" id="file" class="custom-file-input" required>
+              <label for="file" class="custom-file-label">Select Oracle of Seasons Rom (English)</label>
+            </div>
+          </div>
+          
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="checkbox" name="hard" id="hard" value="hard">
+          <label for="hard" class="form-check-label"> Hard Difficulty?</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="checkbox" name="tree" id="tree" value="tree">
+          <label for="tree" class="form-check-label"> Tree Warp?</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="checkbox" name="music" id="music" value="music">
+          <label for="music" class="form-check-label"> Disable Music?</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-download" id="submitBtn" disabled>Randomize Seasons</button>
+      </form>
+    </div>
+  </div>
+  <div class="media" id="loading" >
+    <div class="col"></div>
+    <div class="col"><img class="align-self-st" src="/img/Loading_2.gif" alt=""></div>
+    <div class="col"></div>
+  </div>
+  
+  <div class="card" id="response" hidden>
+    <div class="card-header bg-header">
+      <div class="col" id="seed-p">
+        <h3>1</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-white" id="hardmodeselection"><i class="fas"></i> Hard Mode</li>
+        <li class="list-group-item text-white" id="treewarpselection"><i class="fas"></i> Tree Warp</li>
+        <li class="list-group-item text-white" id="musicselection"><i class="fas"></i> Music Enabled</li>
+      </ul>
+    <a href="#" id="seedlink">Permalink to share with others</a>
+    </div>
+    
+  </div>
+ 
+
+</div>

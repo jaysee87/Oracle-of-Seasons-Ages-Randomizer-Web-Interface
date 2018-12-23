@@ -1,0 +1,86 @@
+const SparkMD5 = require('spark-md5');
+const fileInput = document.getElementById('file') || document.createElement('div');
+const fileLabel = fileInput.nextElementSibling;
+const downloadBtns = document.querySelectorAll('.btn-download');
+downloadBtns.forEach(btn=>{btn.disabled = true;})
+
+export function loadFileListeners(localforage, gameStore){
+  
+  const subPath = location.pathname.substr(1,3);
+  console.log(subPath);
+  // if returns true, then on patch download page, if not then on randomize page
+  const validGame = subPath == "oos" || subPath == "ooa";
+  console.log(validGame);
+  const defaultgame = validGame ? subPath : "oos";
+  const checksums = {
+    ooa: 'c4639cc61c049e5a085526bb6cac03bb',
+    oos: 'f2dc6c4e093e4f8c6cbea80e8dbd62cb'
+  }
+
+  console.log(defaultgame);
+  if (gameStore[defaultgame]){
+    console.log("hi");
+    const fullName = defaultgame == "oos" ? "Seasons" : "Ages";
+    fileInput.disabled = true;
+    downloadBtns.forEach(btn=>{btn.disabled = false;})
+    setLabel(fileLabel, `Oracle of ${fullName} Rom loaded`, "green", "white");
+  }
+
+  function addGame(game, fileData){
+    gameStore[game] = fileData;
+    console.log(game);
+    console.log(fileData);
+    localforage.setItem(game, fileData)
+      .then(val =>{
+        setFileInput(fileInput, game, game == "oos" ? "Seasons" : "Ages", gameStore);
+      }).catch(err =>{
+        console.log(err);
+      })
+  }
+
+  function checkMD5(){
+    console.log(`Reading: ${fileInput.title}`);
+    const reader = new FileReader();
+    const game = fileInput.title || defaultgame;
+    console.log(game);
+    reader.onloadend = e =>{
+      const spark = new SparkMD5.ArrayBuffer();
+      spark.append(reader.result);
+      const end = spark.end();
+      if (end == checksums[game]){
+        // addGame(game, fileInput.files[0]);
+        addGame(game, reader.result);
+      } else {
+        setLabel(fileLabel, `Not a valid ${game} rom`, "red", "white")
+      }      
+    };
+    if (fileInput.files.length > 0){
+      console.log(fileInput.files[0]);
+      reader.readAsArrayBuffer(fileInput.files[0]);
+    }
+  }
+
+  fileInput.addEventListener('change', (e)=>{
+    checkMD5();
+  });
+}
+
+export function setFileInput(input, game, fullName, gameStore){
+  input.files = null;
+  input.title = game;
+  if (gameStore[game]){
+    input.disabled = true;
+    downloadBtns.forEach(btn =>{btn.disabled = false})
+    setLabel(input.nextElementSibling, `Oracle of ${fullName} Rom loaded`, "green", "white");
+  } else {
+    input.disabled = false;
+    downloadBtns.forEach(btn =>{btn.disabled = true})
+    setLabel(input.nextElementSibling, `Select Oracle of ${fullName} Rom (English)`, "white", "gray");
+  }
+}
+
+function setLabel(el, labelText, bgColor, color){
+  el.innerText = labelText;
+  el.style.backgroundColor = bgColor;
+  el.style.color = color;
+}
