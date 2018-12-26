@@ -42,6 +42,6 @@ $ npm start
 ```
 
 ## Future Goals
-* Link palette swaps
-* Title screen edits
+* Title screen/File Screen edits
 * Sprite swapping
+* Double Check Sprite Palette 4 usage for potential color edits for sprites

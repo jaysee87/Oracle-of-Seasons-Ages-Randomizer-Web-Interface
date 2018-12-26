@@ -7,19 +7,15 @@ downloadBtns.forEach(btn=>{btn.disabled = true;})
 export function loadFileListeners(localforage, gameStore){
   
   const subPath = location.pathname.substr(1,3);
-  console.log(subPath);
   // if returns true, then on patch download page, if not then on randomize page
   const validGame = subPath == "oos" || subPath == "ooa";
-  console.log(validGame);
   const defaultgame = validGame ? subPath : "oos";
   const checksums = {
     ooa: 'c4639cc61c049e5a085526bb6cac03bb',
     oos: 'f2dc6c4e093e4f8c6cbea80e8dbd62cb'
   }
 
-  console.log(defaultgame);
   if (gameStore[defaultgame]){
-    console.log("hi");
     const fullName = defaultgame == "oos" ? "Seasons" : "Ages";
     fileInput.disabled = true;
     downloadBtns.forEach(btn=>{btn.disabled = false;})
@@ -28,8 +24,6 @@ export function loadFileListeners(localforage, gameStore){
 
   function addGame(game, fileData){
     gameStore[game] = fileData;
-    console.log(game);
-    console.log(fileData);
     localforage.setItem(game, fileData)
       .then(val =>{
         setFileInput(fileInput, game, game == "oos" ? "Seasons" : "Ages", gameStore);
@@ -42,7 +36,6 @@ export function loadFileListeners(localforage, gameStore){
     console.log(`Reading: ${fileInput.title}`);
     const reader = new FileReader();
     const game = fileInput.title || defaultgame;
-    console.log(game);
     reader.onloadend = e =>{
       const spark = new SparkMD5.ArrayBuffer();
       spark.append(reader.result);
@@ -55,7 +48,6 @@ export function loadFileListeners(localforage, gameStore){
       }      
     };
     if (fileInput.files.length > 0){
-      console.log(fileInput.files[0]);
       reader.readAsArrayBuffer(fileInput.files[0]);
     }
   }

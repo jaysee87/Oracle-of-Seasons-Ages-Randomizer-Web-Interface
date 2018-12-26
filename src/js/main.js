@@ -23,7 +23,6 @@ localforage.config({
 });
 
 function loadListeners(){
-  console.log(endpoint.length);
   if (endpoint.length > 1){
     loadFileListeners(localforage, gameStore);
     if (endpoint == '/randomize'){
@@ -34,7 +33,6 @@ function loadListeners(){
   }
 }
 
-console.log(localforage.keys.length);
 localforage.keys().then(keys =>{
   if (keys.length > 0){
     localforage.iterate((val, k)=>{

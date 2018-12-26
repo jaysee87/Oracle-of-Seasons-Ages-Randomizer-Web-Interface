@@ -8,19 +8,45 @@
       </div>
     </div>
     <div class="card-body">
-      <ul class="list-group list-group-flush">
-        {{#if seed.hard}}
-        <li class="list-group-item text-white bg-success"><i class="fas fa-check"></i> Hard Mode</li>
-        {{else}}
-        <li class="list-group-item text-white bg-danger"><i class="fas fa-times" style="margin-left:3px;margin-right:3px"></i> Hard Mode</li>
-        {{/if}}
+      <div class="card-group">
+        <div class="card">
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              {{#if seed.hard}}
+              <li class="list-group-item text-white bg-success"><i class="fas fa-check"></i> Hard Mode</li>
+              {{else}}
+              <li class="list-group-item text-white bg-danger"><i class="fas fa-times" style="margin-left:3px;margin-right:3px"></i> Hard Mode</li>
+              {{/if}}
 
-        {{#if seed.treewarp}}
-        <li class="list-group-item text-white bg-success"><i class="fas fa-check"></i> Tree Warp Enabled</li>
-        {{else}}
-        <li class="list-group-item text-white bg-danger"><i class="fas fa-times" style="margin-left:3px;margin-right:3px"></i> Tree Warp Enabled</li>
-        {{/if}}
-
+              {{#if seed.treewarp}}
+              <li class="list-group-item text-white bg-success"><i class="fas fa-check"></i> Tree Warp Enabled</li>
+              {{else}}
+              <li class="list-group-item text-white bg-danger"><i class="fas fa-times" style="margin-left:3px;margin-right:3px"></i> Tree Warp Enabled</li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="mt-4 media">
+            <img src=""  alt="Link-Sprite" class="mr-3" id="link-sprite">
+          
+            <div class="media-body">
+              <h3>Link Palette Selection</h3>
+              <div class="input-group">
+                <select class="custom-select" name="paletteIndex" id="paletteIndex">
+                  <option selected>Choose a color...</option>
+                  <option value="0">Green</option>
+                  <option value="1">Blue</option>
+                  <option value="2">Red</option>
+                  <option value="3">Gold</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <ul>
         <form action="#" method="POST" enctype="multipart/form-data" id="randomize-settings" style="margin-top:35px">        
           <div class="custom-file">
             <input type="file" name="file" id="file" class="custom-file-input" required>

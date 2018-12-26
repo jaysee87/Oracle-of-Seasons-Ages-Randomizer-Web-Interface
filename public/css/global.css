@@ -34,3 +34,8 @@ body {
   margin-right: 20px;
   margin-left: 3px;
 }
+
+#link-sprite{
+  height: 64px;
+  width: 64px;
+}
