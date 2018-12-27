@@ -27,7 +27,7 @@ const gifReq = new Request("/img/Link.gif", {method: "GET"});
 *  [col1-r, col1-g, col1-b, col2-r, col2-g, col2-b, col3-r, col3-g, col3-b]
 *  Needed offset for gif palette starts at 0x0D and ends at 0x15
 */
-const palette = [0, // default, don't change anything
+const palette = [[0,0,0,38,142,68,236,190,166],
                 [0,0,0,51,158,191,236,190,166], // blue
                 [0,0,0,205,16,75,236,190,166], // red
                 [0,0,0,217,92,97,236,190,166], // gold
@@ -126,7 +126,7 @@ function loadListeners(gameStore, gif_array){
   *  palette.
   */
   function displayLink(index){
-    if (index > 0 && index < 4){
+    if (index > -1 && index < 4){
       palette[index].forEach((val,i)=>{
         gif_array[i + 13] = val;
       })
