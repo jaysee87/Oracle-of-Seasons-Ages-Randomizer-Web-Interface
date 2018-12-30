@@ -7,8 +7,12 @@ nodemon.json
 /utility/.idea
 /utility/*.blob
 /utility/*.iml
+/utility/seasons/*.gbc
+/utility/ages/*.gbc
 /public/js/**
 /src/node_modules
 /src/dist
 /src/.cache
 .bashrc
+*.exe
+/base/oracles-randomizer
