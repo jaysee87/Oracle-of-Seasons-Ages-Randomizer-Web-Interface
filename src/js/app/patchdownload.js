@@ -1,7 +1,9 @@
 const FileSaver = require('file-saver');
 const BlobUtil = require('blob-util');
+const fileInput = document.getElementById('file') || document.createElement('div');
 const selectedGame = location.pathname.substr(1,3);
 const seed = location.pathname.slice(5);
+const endpoint = location.href.substr((location.href.indexOf(location.host) + location.host.length));
 const seasonsMusicPatch = [{offset: 3190, data: 205}, {offset: 3191, data: 200}, {offset: 3192, data: 62}];
 const agesMusicPatch = [{offset: 3226, data: 205}, {offset: 3227, data: 248}, {offset: 3228, data: 62}];
 const agesLinkPaletteOffsets = [36230,36234,36239,36243,36248,36252,36257,36261,
@@ -63,8 +65,49 @@ function loadListeners(gameStore, gif_array){
   });
 
   function getAndApplySeedData(nomusic){
+    if (endpoint == "/settingspatch"){
+      const reader = new FileReader();
+      reader.onloadend = e =>{
+        applyPatch([], reader.result, nomusic, '');
+      }
+      reader.readAsArrayBuffer(fileInput.files[0]);
+    } else {
+      fetch(patchReq).then(resp => {
+            resp.json().then( respJSON => {
+              // respJSON.patch should be an Array of objects in {"offset": "data"} format
+              const patchArray = respJSON.patch;
+              let argsString = '';
+              if (respJSON.hard){
+                argsString += '-hard';
+              }
+              if (respJSON.treewarp){
+                argsString += '-treewarp';
+              }
+              applyPatch(patchArray, gameStore[selectedGame], nomusic, argsString)
+            })
+          }).catch( err => {
+            console.log(err);
+          })
+    }        
+  }
+
+  function getMagicText(rom_array){
+    let magicString = '';
+    for (let i = 308; i < 319; i++){
+      magicString += String.fromCharCode(rom_array[i]);
+    }
+    if(magicString.includes("ZELDA NAYRU")) {
+      return "ooa";
+    } else if(magicString.includes("ZELDA DIN")){
+      return "oos";
+    }
+  }
+
+  function applyPatch(patchArray, rom, nomusic, argsString){
+    const rom_array = new Uint8Array(rom);
     let musicPatch;
-    switch(selectedGame){
+    let chosenGame = getMagicText(rom_array);
+    switch(chosenGame){
       case "oos":
         musicPatch = seasonsMusicPatch;
         break;
@@ -74,53 +117,34 @@ function loadListeners(gameStore, gif_array){
       default:
         musicPatch = [];
     }
-    fetch(patchReq).then(resp => {
-          resp.json().then( respJSON => {
-            // respJSON.patch should be an Array of objects in {"offset": "data"} format
-            const patchArray = respJSON.patch;
-            if (nomusic){
-              musicPatch.forEach(bytePatch => {
-                patchArray.push(bytePatch);
-              })
-            }
-            const rom_array = new Uint8Array(gameStore[selectedGame]);
-            patchArray.forEach( bytePatch => {
-              // Each index of rom_array is the same as memory offset on rom
-              rom_array[bytePatch.offset] = bytePatch.data;
-            })
-          
-            const pIndex = parseInt(paletteSelect.value) || 0;
-            if (pIndex > 0 && pIndex < 4){
-              // Seasons File Offsets are 64 less than Ages, Object Offsets are 66 less
-              const LinkPaletteOffsets = selectedGame == "ooa" ? agesLinkPaletteOffsets : agesLinkPaletteOffsets.map((x,i)=>{
-                return i > 21 ? x - 66 : x - 64;
-              });
-              LinkPaletteOffsets.forEach(offset=>{
-                rom_array[offset] = rom_array[offset] | pIndex;
-              })
-            }
+    if (nomusic){
+      musicPatch.forEach(bytePatch => {
+        patchArray.push(bytePatch);
+      })
+    }
+    
+    patchArray.forEach( bytePatch => {
+      // Each index of rom_array is the same as memory offset on rom
+      rom_array[bytePatch.offset] = bytePatch.data;
+    })
+  
+    const pIndex = parseInt(paletteSelect.value) || 0;
+    if (pIndex > 0 && pIndex < 4){
+      // Seasons File Offsets are 64 less than Ages, Object Offsets are 66 less
+      const LinkPaletteOffsets = chosenGame == "ooa" ? agesLinkPaletteOffsets : agesLinkPaletteOffsets.map((x,i)=>{
+        return i > 21 ? x - 66 : x - 64;
+      });
+      LinkPaletteOffsets.forEach(offset=>{
+        rom_array[offset] = rom_array[offset] | pIndex;
+      })
+    }
 
-            const finishedRom = new Blob([rom_array]);
-            let argsString = '';
-            if (respJSON.hard){
-              argsString += '-hard';
-            }
-            if (respJSON.treewarp){
-              argsString += '-treewarp';
-            }
-            if (nomusic){
-              argsString += '-nomusic';
-            }
-            console.log(finishedRom);
-            FileSaver.saveAs(finishedRom, `${selectedGame}-webrandomizer-${seed}${argsString}.gbc`);
-          })
-        }).catch( err => {
-          console.log(err);
-        })
-
-        
+    const finishedRom = new Blob([rom_array]);
+    if (nomusic){
+      argsString += '-nomusic';
+    }
+    FileSaver.saveAs(finishedRom, `${chosenGame}-pre-randomized${argsString}.gbc`);  
   }
-
   /*
   *  Link.gif is an indexed color gif, function just edits the palette data and rerenders the gif to the selected 
   *  palette.

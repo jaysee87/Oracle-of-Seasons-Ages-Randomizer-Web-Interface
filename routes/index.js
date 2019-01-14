@@ -42,4 +42,7 @@ router.get('/:game/:id', (req, res)=>{
   })
 });
 
+router.get('/settingspatch', (req,res)=>{
+  res.render('home/exist');
+})
 module.exports = router;
