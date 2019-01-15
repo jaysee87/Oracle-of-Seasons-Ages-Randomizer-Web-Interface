@@ -44,4 +44,4 @@ $ npm start
 ## Future Goals
 * Title screen/File Screen edits
 * Sprite swapping
-* Double Check Sprite Palette 4 usage for potential color edits for sprites
+* ~~Double Check Sprite Palette 4 usage for potential color edits for sprites~~ Bombs use palette 4. Not recommended for editting.
