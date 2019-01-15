@@ -9,6 +9,8 @@ nodemon.json
 /utility/*.iml
 /utility/seasons/*.gbc
 /utility/ages/*.gbc
+/utility/*.exe
+/base/*.exe
 /public/js/**
 /src/node_modules
 /src/dist
