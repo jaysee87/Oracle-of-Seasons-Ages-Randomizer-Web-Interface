@@ -4,12 +4,17 @@
   "description": "Web Interface for Zelda Oracles Randomizer",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "client-install": "npm install --prefix client",
+    "client": "npm run start --prefix client",
+    "server": "nodemon index.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "author": "JC",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "hasha": "^3.0.0",
