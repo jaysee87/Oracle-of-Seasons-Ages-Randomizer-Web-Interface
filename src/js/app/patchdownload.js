@@ -68,7 +68,7 @@ function loadListeners(gameStore, gif_array){
     if (endpoint == "/settingspatch"){
       const reader = new FileReader();
       reader.onloadend = e =>{
-        applyPatch([], reader.result, nomusic, '');
+        applyPatch([], reader.result, nomusic, '', 'prerandomized');
       }
       reader.readAsArrayBuffer(fileInput.files[0]);
     } else {
@@ -83,7 +83,7 @@ function loadListeners(gameStore, gif_array){
               if (respJSON.treewarp){
                 argsString += '-treewarp';
               }
-              applyPatch(patchArray, gameStore[selectedGame], nomusic, argsString)
+              applyPatch(patchArray, gameStore[selectedGame], nomusic, argsString, seed)
             })
           }).catch( err => {
             console.log(err);
@@ -103,7 +103,7 @@ function loadListeners(gameStore, gif_array){
     }
   }
 
-  function applyPatch(patchArray, rom, nomusic, argsString){
+  function applyPatch(patchArray, rom, nomusic, argsString, seedstring){
     const rom_array = new Uint8Array(rom);
     let musicPatch;
     let chosenGame = getMagicText(rom_array);
@@ -143,7 +143,7 @@ function loadListeners(gameStore, gif_array){
     if (nomusic){
       argsString += '-nomusic';
     }
-    FileSaver.saveAs(finishedRom, `${chosenGame}-pre-randomized${argsString}.gbc`);  
+    FileSaver.saveAs(finishedRom, `${chosenGame}-${seedstring}${argsString}.gbc`);  
   }
   /*
   *  Link.gif is an indexed color gif, function just edits the palette data and rerenders the gif to the selected 
