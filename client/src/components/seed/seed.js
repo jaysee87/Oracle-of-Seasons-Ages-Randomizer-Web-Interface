@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './seed.css';
 
 class seed extends Component {
   render() {
@@ -47,14 +48,14 @@ class seed extends Component {
             </div>
             
             <ul>
-              <form action="#" method="POST" enctype="multipart/form-data" id="randomize-settings" style="margin-top:35px">        
+              <form action="#" method="POST" enctype="multipart/form-data" id="randomize-settings" styleName='randomForm'>        
                 <div className="custom-file">
                   <input type="file" name="file" id="file" className="custom-file-input" required></input>
                   <label for="file" className="custom-file-label">Select Oracle of Seasons Rom (English)</label>
                 </div>     
               </form>
 
-              <div className="btn-group btn-group-lg" style="margin-top:60px" >
+              <div className="btn-group btn-group-lg" styleName='buttonGroup' >
                 <button type="button" className="btn btn-primary btn-download" id="music" disabled>Save Rom (Music)</button>
                 <button type="button" className="btn btn-secondary btn-download" id="no-music" disabled>Save Rom (No Music)</button>
               </div>
