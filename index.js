@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const {mongoDBurl}= require('./configs/db');
 
+const version = require('./base/version');
+
 mongoose.connect(mongoDBurl, {useNewUrlParser: true}).then(db=>{
   console.log(`Connected to db`);
 }).catch(err =>{
@@ -29,5 +31,5 @@ app.use('/unsupported', unsupported);
 
 const port = process.env.PORT || 5000;
 app.listen(port, ()=>{
-  console.log(`Zelda Oracles Randomizer running on port ${port}`);
+  console.log(`Zelda Oracles Randomizer ${version} running on port ${port}`);
 })

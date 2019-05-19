@@ -16,7 +16,7 @@ class App extends Component {
             <Header />
             <Route exact path = "/" component={Home} />
             <Route exact path = "/randomize" component={Randomize} />
-            <Footer />
+            <Footer version="3.4.0"/>
         </div>
       </Router>
     );
