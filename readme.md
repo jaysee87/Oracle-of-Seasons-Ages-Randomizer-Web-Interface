@@ -24,13 +24,21 @@ You will need [Python](https://www.python.org/) for the db setup script, it is C
 $ pip install Naked
 ```
 
+You will need to have mongoDB installed and running:
+
+```
+# mongod
+```
+
 Then in the utility directory
 
 ```
 On Linux/MacOSX
+$ mkdir ages seasons
 $ python3 dbBuild.py
   -- or --
 On Windows Command Prompt
+$ mkdir ages seasons
 $ python dbBuild.py
 ```
 

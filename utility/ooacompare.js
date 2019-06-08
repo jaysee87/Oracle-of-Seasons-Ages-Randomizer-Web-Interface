@@ -10,7 +10,7 @@ const version = require('../base/version');
 
 let mongoDbURI = 'mongodb://localhost:27017/oracles';
 
-const base = fs.readFileSync('./ooa.blob');
+const base = fs.readFileSync('../base/ooa.blob');
 
 if (process.argv.includes('-LIVE')){
   mongoDbURI = process.env.ORACLESMONGO || 'mongodb://localhost:27017/oracles';
