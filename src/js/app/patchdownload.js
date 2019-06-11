@@ -154,7 +154,7 @@ export function loadDownloadListeners(gameStore){
         // Each index of rom_array is the same as memory offset on rom
         rom_array[bytePatch.offset] = bytePatch.data;
       })
-    
+
       if (linkPalette > 0 && linkPalette < 4){
         // Seasons File Offsets are 64 less than Ages, Object Offsets are 66 less
         const LinkPaletteOffsets = chosenGame == "ooa" ? agesLinkPaletteOffsets : agesLinkPaletteOffsets.map((x,i)=>{
@@ -164,6 +164,17 @@ export function loadDownloadListeners(gameStore){
           rom_array[offset] = rom_array[offset] | linkPalette;
         })
       }
+
+      // All patches applied. Recalculate rom checksum.
+      var checksum = 0
+      for (let i=0; i<rom_array.length; i++) {
+        if (i == 0x14e || i == 0x14f)
+          continue;
+        checksum += rom_array[i];
+        checksum &= 0xffff;
+      }
+      rom_array[0x14e] = checksum >> 8;
+      rom_array[0x14f] = checksum & 0xff;
 
       const finishedRom = new Blob([rom_array]);
       if (nomusic){
