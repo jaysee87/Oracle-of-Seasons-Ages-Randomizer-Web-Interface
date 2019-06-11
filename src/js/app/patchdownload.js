@@ -43,6 +43,8 @@ const defaultPalettes = {
   marin: 3,
 };
 
+var spriteImages = {};
+
 
 var linkPalette = 0;
 var linkSprite = 'link';
@@ -188,21 +190,30 @@ export function loadDownloadListeners(gameStore){
   *  palette.
   */
   function displayLink(){
-    const gifReq = new Request(`/img/${linkSprite}.gif`, {method: "GET"});
-    fetch(gifReq).then(gifRes=>{
-      gifRes.arrayBuffer().then(buffer=>{
-        const gif_array = new Uint8Array(buffer);
-        if (linkPalette > -1 && linkPalette < 4){
-          palette[linkPalette].forEach((val,i)=>{
-            gif_array[i + 13] = val;
-          })
-        }
-        const blob = new Blob([gif_array], { type: 'image/gif'});
-        const baseURL = window.URL;
-        var imgURL = baseURL.createObjectURL(blob);
-        imgEl.src = imgURL;
+    if (spriteImages[linkSprite])
+      display(spriteImages[linkSprite]);
+    else {
+      const gifReq = new Request(`/img/${linkSprite}.gif`, {method: "GET"});
+      fetch(gifReq).then(gifRes=>{
+        gifRes.arrayBuffer().then(buffer=>{
+          spriteImages[linkSprite] = buffer;
+          display(buffer);
+        });
       });
-    });
+    }
+
+    function display(buffer) {
+      const gif_array = new Uint8Array(buffer);
+      if (linkPalette > -1 && linkPalette < 4){
+        palette[linkPalette].forEach((val,i)=>{
+          gif_array[i + 13] = val;
+        })
+      }
+      const blob = new Blob([gif_array], { type: 'image/gif'});
+      const baseURL = window.URL;
+      var imgURL = baseURL.createObjectURL(blob);
+      imgEl.src = imgURL;
+    }
   }
  
   displayLink(parseInt(paletteSelect.value) || 0);
