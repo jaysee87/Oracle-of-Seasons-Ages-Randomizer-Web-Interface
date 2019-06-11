@@ -2,7 +2,14 @@ import threading
 import os
 import subprocess
 import time
+import sys
 from Naked.toolshed.shell import execute_js
+
+if sys.platform == "win32":
+    oracles_randomizer_exe = "./oracles-randomizer.exe"
+else:
+    oracles_randomizer_exe = "../oracles-randomizer"
+
 
 FNULL = open(os.devnull, 'w')
 start = time.time()
@@ -34,13 +41,13 @@ def makeseeds(margs, game):
 if makeroms:
     print("Generating Seasons roms")
     for seasons in range(33):
-        args = ['./oracles-randomizer.exe']
+        args = [oracles_randomizer_exe]
         if seasons > 16:
             args.append('-hard')
         if seasons > 30:
             args.append('-treewarp')
         args.append('-noui')
-        args.append('../OOS.blob')
+        args.append('../../base/oos.blob')
         makeseeds(args, "seasons")
         while threading.active_count() > 1:
             pass
@@ -48,13 +55,13 @@ if makeroms:
 
     print("Generating Ages roms")
     for ages in range(33):
-        args = ['./oracles-randomizer.exe']
+        args = [oracles_randomizer_exe]
         if ages > 16:
             args.append('-hard')
         if ages > 30:
             args.append('-treewarp')
         args.append('-noui')
-        args.append('../OOA.blob')
+        args.append('../../base/ooa.blob')
         makeseeds(args, "ages")
         while threading.active_count() > 1:
             pass
