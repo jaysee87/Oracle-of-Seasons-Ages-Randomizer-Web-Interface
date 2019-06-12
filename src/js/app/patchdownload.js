@@ -1,5 +1,8 @@
 const FileSaver = require('file-saver');
 const BlobUtil = require('blob-util');
+
+import {parseIPS} from './parseIPS';
+
 const fileInput = document.getElementById('file') || document.createElement('div');
 const selectedGame = location.pathname.substr(1,3);
 const seed = location.pathname.slice(5);
@@ -19,7 +22,6 @@ const patchReq = new Request(patchURL, {
     "Content-Type": "application/json; charset=utf-8"
   }
 });
-const gifReq = new Request("/img/Link.gif", {method: "GET"});
 
 /*
 *  Array of Palette Arrays for gif
@@ -35,24 +37,36 @@ const palette = [[0,0,0,38,142,68,236,190,166],
                 [0,0,0,217,92,97,236,190,166], // gold
                 ];   
 
-export function loadDownloadListeners(gameStore){
-  fetch(gifReq).then(gifRes=>{
-    gifRes.arrayBuffer().then(buffer=>{
-      const gif_array = new Uint8Array(buffer);
-      loadListeners(gameStore, gif_array);
-    });
-  });
-}
+// Default palettes for sprites
+const defaultPalettes = {
+  link: 0,
+  marin: 3,
+};
 
-function loadListeners(gameStore, gif_array){
+var spriteImages = {};
+
+
+var linkPalette = 0;
+var linkSprite = 'link';
+
+
+export function loadDownloadListeners(gameStore){
   const musicBtn = document.getElementById('music') || document.createElement('div');
   const noMusicBtn = document.getElementById('no-music') || document.createElement('div');
   const paletteSelect = document.getElementById('paletteIndex');
+  const spriteSelect = document.getElementById('linkSprite');
 
   paletteSelect.addEventListener('change', e=>{
-    const pIndex = parseInt(paletteSelect.value) || 0;
-    displayLink(pIndex);
-  })
+    linkPalette = parseInt(paletteSelect.value) || 0;
+    displayLink();
+  });
+  
+  spriteSelect.addEventListener('change', e=>{
+    linkSprite = spriteSelect.value || 'link';
+    linkPalette = defaultPalettes[linkSprite];
+    paletteSelect.value = `${linkPalette}`
+    displayLink();
+  });
 
   musicBtn.addEventListener('click', e=>{
     e.preventDefault();
@@ -123,42 +137,83 @@ function loadListeners(gameStore, gif_array){
       })
     }
     
-    patchArray.forEach( bytePatch => {
-      // Each index of rom_array is the same as memory offset on rom
-      rom_array[bytePatch.offset] = bytePatch.data;
-    })
-  
-    const pIndex = parseInt(paletteSelect.value) || 0;
-    if (pIndex > 0 && pIndex < 4){
-      // Seasons File Offsets are 64 less than Ages, Object Offsets are 66 less
-      const LinkPaletteOffsets = chosenGame == "ooa" ? agesLinkPaletteOffsets : agesLinkPaletteOffsets.map((x,i)=>{
-        return i > 21 ? x - 66 : x - 64;
+    // Sprite patch
+    if (linkSprite != 'link'){
+      const ipsReq = new Request(`/patch/${linkSprite}-${chosenGame}.ips`, {method: "GET"});
+      fetch(ipsReq).then(ipsRes=>{
+        ipsRes.arrayBuffer().then(buffer=>{
+          parseIPS(rom_array,buffer);
+          finalizePatch();
+        });
       });
-      LinkPaletteOffsets.forEach(offset=>{
-        rom_array[offset] = rom_array[offset] | pIndex;
+    }
+    else {
+      finalizePatch();
+    }
+    
+    function finalizePatch() {
+      patchArray.forEach( bytePatch => {
+        // Each index of rom_array is the same as memory offset on rom
+        rom_array[bytePatch.offset] = bytePatch.data;
       })
-    }
 
-    const finishedRom = new Blob([rom_array]);
-    if (nomusic){
-      argsString += '-nomusic';
+      if (linkPalette > 0 && linkPalette < 4){
+        // Seasons File Offsets are 64 less than Ages, Object Offsets are 66 less
+        const LinkPaletteOffsets = chosenGame == "ooa" ? agesLinkPaletteOffsets : agesLinkPaletteOffsets.map((x,i)=>{
+          return i > 21 ? x - 66 : x - 64;
+        });
+        LinkPaletteOffsets.forEach(offset=>{
+          rom_array[offset] = rom_array[offset] | linkPalette;
+        })
+      }
+
+      // All patches applied. Recalculate rom checksum.
+      var checksum = 0
+      for (let i=0; i<rom_array.length; i++) {
+        if (i == 0x14e || i == 0x14f)
+          continue;
+        checksum += rom_array[i];
+        checksum &= 0xffff;
+      }
+      rom_array[0x14e] = checksum >> 8;
+      rom_array[0x14f] = checksum & 0xff;
+
+      const finishedRom = new Blob([rom_array]);
+      if (nomusic){
+        argsString += '-nomusic';
+      }
+      FileSaver.saveAs(finishedRom, `${chosenGame}-${seedstring}${argsString}.gbc`);
     }
-    FileSaver.saveAs(finishedRom, `${chosenGame}-${seedstring}${argsString}.gbc`);  
   }
   /*
-  *  Link.gif is an indexed color gif, function just edits the palette data and rerenders the gif to the selected 
+  *  gifs are indexed color gifs, function just edits the palette data and rerenders the gif to the selected
   *  palette.
   */
-  function displayLink(index){
-    if (index > -1 && index < 4){
-      palette[index].forEach((val,i)=>{
-        gif_array[i + 13] = val;
-      })
+  function displayLink(){
+    if (spriteImages[linkSprite])
+      display(spriteImages[linkSprite]);
+    else {
+      const gifReq = new Request(`/img/${linkSprite}.gif`, {method: "GET"});
+      fetch(gifReq).then(gifRes=>{
+        gifRes.arrayBuffer().then(buffer=>{
+          spriteImages[linkSprite] = buffer;
+          display(buffer);
+        });
+      });
     }
-    const blob = new Blob([gif_array], { type: 'image/gif'});
-    const baseURL = window.URL;
-    var imgURL = baseURL.createObjectURL(blob);
-    imgEl.src = imgURL;
+
+    function display(buffer) {
+      const gif_array = new Uint8Array(buffer);
+      if (linkPalette > -1 && linkPalette < 4){
+        palette[linkPalette].forEach((val,i)=>{
+          gif_array[i + 13] = val;
+        })
+      }
+      const blob = new Blob([gif_array], { type: 'image/gif'});
+      const baseURL = window.URL;
+      var imgURL = baseURL.createObjectURL(blob);
+      imgEl.src = imgURL;
+    }
   }
  
   displayLink(parseInt(paletteSelect.value) || 0);
