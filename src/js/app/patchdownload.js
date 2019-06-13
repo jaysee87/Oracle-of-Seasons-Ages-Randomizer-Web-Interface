@@ -2,6 +2,7 @@ const FileSaver = require('file-saver');
 const BlobUtil = require('blob-util');
 
 import {parseIPS} from './parseIPS';
+import {writePointer} from './romhelper';
 
 const fileInput = document.getElementById('file') || document.createElement('div');
 const selectedGame = location.pathname.substr(1,3);
@@ -9,10 +10,11 @@ const seed = location.pathname.slice(5);
 const endpoint = location.href.substr((location.href.indexOf(location.host) + location.host.length));
 const seasonsMusicPatch = [{offset: 3190, data: 205}, {offset: 3191, data: 200}, {offset: 3192, data: 62}];
 const agesMusicPatch = [{offset: 3226, data: 205}, {offset: 3227, data: 248}, {offset: 3228, data: 62}];
-const agesLinkPaletteOffsets = [36230,36234,36239,36243,36248,36252,36257,36261,
-                                36274,36278,36291,36295,36304,36308,36317,36321,
-                                36338,36342,36359,36363,36376,36380,82446,82448,
-                                82450,82452,82454,82456,82458,82460,82462,82464];
+const agesLinkFilePaletteOffsets = [36230,36234,36239,36243,36248,36252,36257,36261,
+                                    36274,36278,36291,36295,36304,36308,36317,36321,
+                                    36338,36342,36359,36363,36376,36380];
+const agesLinkObjectPaletteOffsets =
+  [82446,82448,82450,82452,82454,82456,82458,82460,82462,82464];
 
 const imgEl = document.getElementById('link-sprite');
 const patchURL = `/api/${selectedGame}/${seed}`;
@@ -35,6 +37,8 @@ const palette = [[0,0,0,38,142,68,236,190,166],
                 [0,0,0,51,158,191,236,190,166], // blue
                 [0,0,0,205,16,75,236,190,166], // red
                 [0,0,0,217,92,97,236,190,166], // gold
+                [173,226,249,53,139,241,0,0,0], // blue (inverted)
+                [248,197,110,234,75,55,0,0,0], // red (inverted)
                 ];   
 
 // Default palettes for sprites
@@ -157,14 +161,44 @@ export function loadDownloadListeners(gameStore){
         rom_array[bytePatch.offset] = bytePatch.data;
       })
 
-      if (linkPalette > 0 && linkPalette < 4){
-        // Seasons File Offsets are 64 less than Ages, Object Offsets are 66 less
-        const LinkPaletteOffsets = chosenGame == "ooa" ? agesLinkPaletteOffsets : agesLinkPaletteOffsets.map((x,i)=>{
-          return i > 21 ? x - 66 : x - 64;
+      if (linkPalette > 0 && linkPalette < 6){
+        // Seasons Object palette offsets are 66 less than ages
+        const LinkPaletteOffsets = chosenGame == "ooa" ? agesLinkObjectPaletteOffsets : agesLinkObjectPaletteOffsets.map((x,i)=>{
+          return x - 66;
         });
         LinkPaletteOffsets.forEach(offset=>{
           rom_array[offset] = rom_array[offset] | linkPalette;
-        })
+        });
+
+        // Address of standard sprite palettes
+        const paletteSrc = chosenGame == "ooa" ? 0x5c8f0 : 0x58840;
+        // Free space to put modified copy of sprite palettes for file select screen
+        const fileSelectPaletteAddr = chosenGame == "ooa" ? 0x5eee3 : 0x5ba07;
+        // Copy normal palettes
+        for (let x=8; x<8*4; x++)
+          rom_array[fileSelectPaletteAddr + x] = rom_array[paletteSrc + x];
+        // Replace first palette (green) with appropriate one
+        for (let x=0; x<8; x++)
+          rom_array[fileSelectPaletteAddr + x] = rom_array[paletteSrc + x + linkPalette * 8];
+        // Replace file select's palette reference to newly created data
+        if (chosenGame == "ooa") {
+          writePointer(rom_array, 0x64de, fileSelectPaletteAddr);
+          writePointer(rom_array, 0x64ea, fileSelectPaletteAddr);
+        }
+        else {
+          writePointer(rom_array, 0x6428, fileSelectPaletteAddr);
+          writePointer(rom_array, 0x6434, fileSelectPaletteAddr);
+        }
+
+        if (linkPalette >= 4) {
+          // For "inverted" palettes, change the damage-taking palette to 1 or
+          // 2 (depending if it's red or blue).
+          const damagePalette = (linkPalette-3) | 8;
+          if (chosenGame == "ooa")
+            rom_array[0x14290] = damagePalette;
+          else
+            rom_array[0x1424e] = damagePalette;
+        }
       }
 
       // All patches applied. Recalculate rom checksum.
@@ -204,7 +238,7 @@ export function loadDownloadListeners(gameStore){
 
     function display(buffer) {
       const gif_array = new Uint8Array(buffer);
-      if (linkPalette > -1 && linkPalette < 4){
+      if (linkPalette > -1 && linkPalette < 6){
         palette[linkPalette].forEach((val,i)=>{
           gif_array[i + 13] = val;
         })
