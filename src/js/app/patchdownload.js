@@ -2,7 +2,7 @@ const FileSaver = require('file-saver');
 const BlobUtil = require('blob-util');
 
 import {parseIPS} from './parseIPS';
-import {writePointer} from './romhelper';
+import {readPointer,writePointer} from './romhelper';
 
 const fileInput = document.getElementById('file') || document.createElement('div');
 const selectedGame = location.pathname.substr(1,3);
@@ -10,9 +10,6 @@ const seed = location.pathname.slice(5);
 const endpoint = location.href.substr((location.href.indexOf(location.host) + location.host.length));
 const seasonsMusicPatch = [{offset: 3190, data: 205}, {offset: 3191, data: 200}, {offset: 3192, data: 62}];
 const agesMusicPatch = [{offset: 3226, data: 205}, {offset: 3227, data: 248}, {offset: 3228, data: 62}];
-const agesLinkFilePaletteOffsets = [36230,36234,36239,36243,36248,36252,36257,36261,
-                                    36274,36278,36291,36295,36304,36308,36317,36321,
-                                    36338,36342,36359,36363,36376,36380];
 const agesLinkObjectPaletteOffsets =
   [82446,82448,82450,82452,82454,82456,82458,82460,82462,82464];
 
@@ -169,6 +166,25 @@ export function loadDownloadListeners(gameStore){
         LinkPaletteOffsets.forEach(offset=>{
           rom_array[offset] = rom_array[offset] | linkPalette;
         });
+
+        const linkOamTable = chosenGame == "ooa" ? 0x1a0a7 : 0x19d9e;
+        const oamBank = chosenGame == "ooa" ? 0x13 : 0x12;
+
+        // Preserve the palettes of everything that's not link's color (ie. harp)
+        for (let i=0; i<48; i++) {
+          var addr = readPointer(rom_array, linkOamTable + i*2, oamBank);
+          var count = rom_array[addr];
+          addr++;
+          for (let j=0; j<count; j++) {
+            if ((rom_array[addr+3] & 7) != 0) {
+              if (i >= 46 && linkPalette >= 4) // Harp only: use inverted palettes
+                rom_array[addr+3] = (rom_array[addr+3] & ~7);
+              else // Everything else: use its original palette
+                rom_array[addr+3] ^= linkPalette;
+            }
+            addr += 4;
+          }
+        }
 
         // Address of standard sprite palettes
         const paletteSrc = chosenGame == "ooa" ? 0x5c8f0 : 0x58840;
