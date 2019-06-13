@@ -42,7 +42,13 @@ const palette = [[0,0,0,38,142,68,236,190,166],
 const defaultPalettes = {
   link: 0,
   marin: 3,
+  demonlink: 5,
 };
+
+// Sprites which have separate patches for each game should have an entry here
+const gameSpecificSprite = {
+  marin: true,
+}
 
 var spriteImages = {};
 
@@ -140,7 +146,13 @@ export function loadDownloadListeners(gameStore){
     
     // Sprite patch
     if (linkSprite != 'link'){
-      const ipsReq = new Request(`/patch/${linkSprite}-${chosenGame}.ips`, {method: "GET"});
+      var ipsReq;
+      if (gameSpecificSprite[linkSprite]) {
+        ipsReq = new Request(`/patch/${linkSprite}-${chosenGame}.ips`, {method: "GET"});
+      }
+      else {
+        ipsReq = new Request(`/patch/${linkSprite}.ips`, {method: "GET"});
+      }
       fetch(ipsReq).then(ipsRes=>{
         ipsRes.arrayBuffer().then(buffer=>{
           parseIPS(rom_array,buffer);
