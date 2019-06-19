@@ -1,0 +1,29 @@
+html {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  font-weight: bolder;
+  font-size: 20px;
+}
+
+.footer {
+  content: "";
+  height: 40px;
+}
+
+.footer div {
+  margin-top: 11px;
+  height: 100%;
+  font-size: 18px;
+}
+
+.bg-header {
+  background-color: #e8f7fc;
+}
+
+#link-sprite{
+  height: 64px;
+  width: 64px;
+}

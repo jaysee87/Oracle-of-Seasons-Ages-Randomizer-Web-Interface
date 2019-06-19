@@ -6,7 +6,8 @@ export default class Home extends Component {
       <div className="container">
         <div className="card">
           <div className="card-header bg-header">
-            <h1>Welcome to The Legend of Zelda: Oracle of Seasons and Ages Randomizer Web Interface!</h1>
+            <h1 className='text-center'>The Legend of Zelda: Oracle of Seasons/Ages Randomizer</h1>
+            <h2 className="text-center">Web Interface</h2>
           </div>
           <div className="card-body">
             <p>This site is simply an interface for the randomizer developed by Jangler. I take 0 credit in the actual programming of

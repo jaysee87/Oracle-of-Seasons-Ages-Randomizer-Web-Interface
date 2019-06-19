@@ -11,6 +11,10 @@ const OOA = require('../models/OOASeed');
 
 const version = require('../base/version');
 
+router.get('/version', (req, res)=>{
+  res.json({version: version})
+});
+
 router.post('/randomize', (req,res)=>{
   /*
   * Expects from req.body:

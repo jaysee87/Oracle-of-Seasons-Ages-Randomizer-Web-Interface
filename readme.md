@@ -44,3 +44,4 @@ $ npm run dev
 
 ## Future Goals
 * Title screen/File Screen edits
+* Handle sprite selection options via backend or external json list
