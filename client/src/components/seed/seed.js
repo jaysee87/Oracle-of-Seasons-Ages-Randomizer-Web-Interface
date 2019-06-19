@@ -40,6 +40,10 @@ class seed extends Component {
     let bodyContent;
     let titleText;
     const gameTitle = game === "oos" ? "Seasons" : "Ages"
+
+    // TODO Create array of toggled features and map to JSX
+    // TODO Create array of sprites and map to JSX
+
     if (this.state.loading) {
       bodyContent = (<div className="card-body"><Spinner /></div>)
       titleText = `Fetching Oracle of ${gameTitle} Seed...`
