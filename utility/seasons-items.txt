@@ -1,0 +1,172 @@
+wooden/noble sword
+wooden/noble sword
+wooden shield
+iron shield
+power bracelet
+roc's feather/cape
+roc's feather/cape
+(hyper) slingshot
+(hyper) slingshot
+magnetic gloves
+(magic) boomerang
+(magic) boomerang
+shovel
+ricky's flute
+fool's ore
+bombs, 10
+bombs, 10
+bombs, 10
+bombs, 10
+bombs, 10
+bombs, 10
+bombs, 10
+seed satchel
+seed satchel
+rod of autumn
+rod of spring
+rod of summer
+rod of winter
+.
+ember seeds
+mystery seeds
+scent seeds
+pegasus seeds
+gale seeds
+gale seeds
+.
+star-shaped ore
+master's plaque
+zora's flippers
+spring banana
+rusty bell
+ribbon
+member's card
+blue ore
+red ore
+hard ore
+gnarled key
+floodgate key
+dragon key
+round jewel
+pyramid jewel
+square jewel
+x-shaped jewel
+.
+D0 small key
+.
+D1 boss key
+D1 compass
+D1 dungeon map
+D1 small key
+D1 small key
+.
+D2 boss key
+D2 compass
+D2 dungeon map
+D2 small key
+D2 small key
+D2 small key
+.
+D3 boss key
+D3 compass
+D3 dungeon map
+D3 small key
+D3 small key
+.
+D4 boss key
+D4 compass
+D4 dungeon map
+D4 small key
+D4 small key
+D4 small key
+D4 small key
+D4 small key
+.
+D5 boss key
+D5 compass
+D5 dungeon map
+D5 small key
+D5 small key
+D5 small key
+D5 small key
+D5 small key
+.
+D6 boss key
+D6 compass
+D6 dungeon map
+D6 small key
+D6 small key
+D6 small key
+.
+D7 boss key
+D7 compass
+D7 dungeon map
+D7 small key
+D7 small key
+D7 small key
+D7 small key
+D7 small key
+.
+D8 boss key
+D8 compass
+D8 dungeon map
+D8 small key
+D8 small key
+D8 small key
+D8 small key
+D8 small key
+D8 small key
+D8 small key
+.
+heart container
+heart container
+heart container
+heart container
+heart container
+heart container
+heart container
+heart container
+piece of heart
+piece of heart
+rare peach stone
+.
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+gasha seed
+rupees, 1
+rupees, 10
+rupees, 10
+rupees, 100
+rupees, 100
+rupees, 20
+rupees, 20
+rupees, 30
+rupees, 30
+rupees, 30
+rupees, 5
+rupees, 5
+rupees, 5
+rupees, 50
+rupees, 50
+treasure map
+.
+charge ring
+discovery ring
+first gen ring
+like-like ring
+maple's ring
+snowshoe ring
+protection ring
+steadfast ring
+whimsical ring
+red ring
+spin ring

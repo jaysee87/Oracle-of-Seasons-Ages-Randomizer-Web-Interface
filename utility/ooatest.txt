@@ -1,0 +1,296 @@
+oracles randomizer 4.0.0-beta1
+generated 2019-06-18T00:11:03-05:00
+seed: 40287b68
+sha-1 sum: 21fa2a1298a1ee9a29f690fc5f802676c63df686
+difficulty: hard
+
+
+-- progression items --
+
+sphere 0:
+nayru's house                <- zora's flippers / mermaid suit
+starting chest               <- power bracelet/glove
+
+sphere 1:
+black tower worker           <- zora's flippers / mermaid suit
+deku forest cave east        <- switch/long hook
+
+sphere 2:
+ambi's palace chest          <- rupees, 100
+deku forest cave west        <- lava juice
+fairies' woods chest         <- rupees, 50
+under crescent island        <- rupees, 50
+
+sphere 3:
+shop, 150 rupees             <- feather
+shop, 30 rupees              <- wooden shield
+
+sphere 4:
+ridge diamonds past          <- goron vase
+trade lava juice             <- zora scale
+
+sphere 5:
+sea of storms past           <- brother emblem
+
+sphere 6:
+trade goron vase             <- bombs, 10
+
+sphere 7:
+tokay bomb cave              <- wooden/noble sword
+wild tokay game              <- ricky's gloves
+
+sphere 8:
+balloon guy's gift           <- seed shooter
+
+sphere 9:
+ambi's palace tree           <- mystery seeds
+deku forest tree             <- ember seeds
+
+sphere 10:
+maku tree                    <- dimitri's flute
+
+sphere 11:
+south shore dirt             <- tokay eyeball
+symmetry city tree           <- scent seeds
+
+sphere 12:
+D2 moblin drop               <- tune of echoes/currents/ages
+balloon guy's upgrade        <- tune of echoes/currents/ages
+
+sphere 13:
+symmetry city brother        <- old mermaid key
+
+sphere 14:
+D5 six-statue puzzle         <- switch/long hook
+
+sphere 15:
+mayor plen's house           <- power bracelet/glove
+
+sphere 16:
+sea of no return             <- cane of somaria
+
+sphere 17:
+D5 three-statue puzzle       <- tune of echoes/currents/ages
+D6 past spear chest          <- graveyard key
+
+sphere 18:
+D8 B1F NW chest              <- tuni nut
+D8 NW slate chest            <- crown key
+zora village present         <- mermaid key
+
+sphere 19:
+D7 boss                      <- fairy powder
+
+
+-- small keys and boss keys --
+
+sphere 8:
+D6 past wizzrobe chest       <- D6 past small key
+
+sphere 10:
+D6 past rope chest           <- D6 past small key
+D6 present beamos chest      <- D6 present small key
+D6 present cube chest        <- D6 boss key
+
+sphere 12:
+D2 basement chest            <- D2 small key
+D2 bombed terrace            <- D2 small key
+D2 ladder chest              <- D2 small key
+D2 rope room                 <- D2 boss key
+D2 thwomp shelf              <- D2 small key
+D2 thwomp tunnel             <- D2 small key
+
+sphere 14:
+D5 blue peg chest            <- D5 small key
+D5 dark room                 <- D5 small key
+D5 diamond chest             <- D5 small key
+D5 eyes chest                <- D5 small key
+D5 like-like chest           <- D5 small key
+D5 red peg chest             <- D5 boss key
+
+sphere 17:
+D6 past diamond chest        <- D6 past small key
+
+sphere 18:
+D8 1F chest                  <- D8 small key
+D8 NE slate chest            <- slate
+D8 SE slate chest            <- D8 small key
+D8 SW slate chest            <- slate
+D8 blade trap chest          <- D8 small key
+D8 blue peg chest            <- D8 boss key
+D8 ghini chest               <- D8 small key
+D8 maze chest                <- slate
+D8 sarcophagus chest         <- D8 small key
+D8 stalfos                   <- slate
+
+sphere 19:
+D1 basement                  <- D1 small key
+D1 ghini drop                <- D1 boss key
+D1 pot chest                 <- D1 small key
+D1 wide room                 <- D1 small key
+D3 armos drop                <- D3 small key
+D3 bridge chest              <- D3 small key
+D3 pols voice chest          <- D3 small key
+D3 statue drop               <- D3 boss key
+D3 torch chest               <- D3 small key
+D7 boxed chest               <- D7 boss key
+D7 cane/diamond puzzle       <- D7 small key
+D7 crab chest                <- D7 small key
+D7 diamond puzzle            <- D7 small key
+D7 left wing                 <- D7 small key
+D7 pot island chest          <- D7 small key
+D7 spike chest               <- D7 small key
+D7 stairway chest            <- D7 small key
+
+sphere 20:
+D4 color tile drop           <- D4 small key
+D4 first chest               <- D4 small key
+D4 first crystal switch      <- D4 boss key
+D4 minecart chest            <- D4 small key
+D4 second crystal switch     <- D4 small key
+D6 present rope chest        <- D6 present small key
+
+inaccessible:
+D4 lava pot chest            <- D4 small key
+D6 present vire chest        <- D6 present small key
+
+
+-- other items --
+
+sphere 2:
+hidden tokay cave            <- rupees, 10
+
+sphere 4:
+D6 past color room           <- rupees, 30
+ridge past bush cave         <- rupees, 30
+tokay crystal cave           <- red luck ring
+
+sphere 5:
+piratian captain             <- gasha ring
+
+sphere 7:
+D6 present diamond chest     <- armor ring L-2
+bomb goron head              <- light ring L-2
+ridge base west past         <- rupees, 50
+
+sphere 9:
+south lynna tree             <- ember seeds
+
+sphere 10:
+D6 past pool chest           <- D6 past dungeon map
+D6 past stalfos chest        <- D6 past compass
+cheval's invention           <- cheval rope
+cheval's test                <- octo ring
+deku forest soldier          <- rupees, 30
+grave under tree             <- gasha seed
+lynna city chest             <- red ring
+maku path basement           <- gasha seed
+rescue nayru                 <- rupees, 50
+
+sphere 11:
+nuun highlands cave          <- wooden/noble sword
+
+sphere 12:
+D2 basement drop             <- gasha seed
+D2 boss                      <- gasha seed
+D2 color room                <- D2 compass
+D2 moblin platform           <- D2 dungeon map
+D2 statue puzzle             <- snowshoe ring
+
+sphere 13:
+goron dance present          <- protection ring
+goron diamond cave           <- heart container
+goron shooting gallery       <- gasha seed
+goron's hiding place         <- gasha seed
+pool in d6 entrance          <- rupees, 30
+ridge NE cave present        <- bomb flower
+ridge base west present      <- heart container
+ridge west top present       <- gasha seed
+rolling ridge east tree      <- pegasus seeds
+rolling ridge west tree      <- mystery seeds
+talus peaks chest            <- rock brisket
+target carts 1               <- gasha seed
+target carts 2               <- green ring
+tokkey's composition         <- goronade
+under moblin keep            <- gasha seed
+
+sphere 14:
+D5 owl puzzle                <- rupees, 200
+big bang game                <- gasha seed
+goron elder                  <- bombproof ring
+trade rock brisket           <- energy ring
+
+sphere 15:
+tokay pot cave               <- light ring L-1
+
+sphere 17:
+D5 boss                      <- D5 dungeon map
+D5 two-statue puzzle         <- D5 compass
+D6 boss                      <- gasha seed
+D6 present spinner chest     <- D6 present dungeon map
+
+sphere 18:
+D8 B3F chest                 <- letter of introduction
+D8 boss                      <- D8 dungeon map
+D8 floor puzzle              <- D8 compass
+D8 tile room                 <- rupees, 30
+fairies' coast chest         <- first gen ring
+fisher's island cave         <- red holy ring
+graveyard poe                <- heart container
+king zora                    <- iron shield
+zora NW cave                 <- blast ring
+zora palace chest            <- boomerang
+zora village tree            <- gale seeds
+
+sphere 19:
+D1 boss                      <- piece of heart
+D1 crossroads                <- gasha seed
+D1 crystal room              <- rupees, 20
+D1 east terrace              <- shovel
+D1 one-button chest          <- D1 compass
+D1 two-button chest          <- island chart
+D1 west terrace              <- D1 dungeon map
+D3 boss                      <- heart container
+D3 bush beetle room          <- D3 compass
+D3 conveyor belt room        <- gasha seed
+D3 crossroads                <- D3 dungeon map
+D3 mimic room                <- rupees, 30
+D3 moldorm drop              <- moblin ring
+D3 six-block drop            <- heart container
+D7 3F terrace                <- scent seedling
+D7 flower room               <- library key
+D7 hallway chest             <- D7 dungeon map
+D7 miniboss chest            <- gasha seed
+D7 post-hallway chest        <- D7 compass
+D7 right wing                <- rupees, 30
+goron dance, with letter     <- seed satchel
+zora's reward                <- book of seals
+
+sphere 20:
+D3 B1F east                  <- heart container
+D4 boss                      <- D4 dungeon map
+D4 cube chest                <- bombs, 10
+D4 large floor puzzle        <- seed satchel
+D4 small floor puzzle        <- D4 compass
+crescent island tree         <- scent seeds
+defeat great moblin          <- gasha seed
+library past                 <- heart container
+library present              <- heart container
+zora seas chest              <- rupees, 100
+
+inaccessible:
+D6 present RNG chest         <- D6 present compass
+D6 present channel chest     <- gasha seed
+
+
+-- dungeon entrances --
+
+D1 entrance <- D8
+D2 entrance <- D6 present
+D3 entrance <- D6 past
+D4 entrance <- D3
+D5 entrance <- D1
+D6 past entrance <- D7
+D6 present entrance <- D5
+D7 entrance <- D4
+D8 entrance <- D2

@@ -22,12 +22,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.engine('handlebars', exphbs({defaultLayout: 'home'}));
 app.set('view engine', 'handlebars');
 
-const main = require('./routes/index');
 const api = require('./routes/api');
-const unsupported = require('./routes/unsupported');
-app.use('/', main);
 app.use('/api', api);
-app.use('/unsupported', unsupported);
+
+// Serve static html in client/build if in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  })
+}
 
 const port = process.env.PORT || 5000;
 app.listen(port, ()=>{

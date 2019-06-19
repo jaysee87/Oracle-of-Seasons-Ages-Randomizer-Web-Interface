@@ -40,12 +40,18 @@ def makeseeds(margs, game):
 # makes 500 seeds, 15 at a time = 33 batches
 if makeroms:
     print("Generating Seasons roms")
-    for seasons in range(33):
+    for seasons in range(50):
         args = [oracles_randomizer_exe]
-        if seasons > 16:
+        if seasons > 10:
             args.append('-hard')
-        if seasons > 30:
+        if seasons > 20:
             args.append('-treewarp')
+            args.append('-portals')
+        if seasons > 30:
+            args.append('-dungeons')
+        if seasons > 40:
+            args.append('-race')
+        
         args.append('-noui')
         args.append('../../base/oos.blob')
         makeseeds(args, "seasons")
@@ -54,22 +60,25 @@ if makeroms:
         print("Seasons batch {} done".format(seasons + 1))
 
     print("Generating Ages roms")
-    for ages in range(33):
+    for ages in range(50):
         args = [oracles_randomizer_exe]
-        if ages > 16:
+        if ages > 10:
             args.append('-hard')
-        if ages > 30:
+        if ages > 20:
             args.append('-treewarp')
+        if ages > 30:
+            args.append('-dungeons')
+        if ages > 40:
+            args.append('-race')
+        while threading.active_count() > 1:
+            pass
         args.append('-noui')
         args.append('../../base/ooa.blob')
         makeseeds(args, "ages")
-        while threading.active_count() > 1:
-            pass
         print("Ages batch {} done".format(ages + 1))
     print('Seed generation time: {} seconds'.format(time.time() - start))
 
-seasonsSuccess = execute_js('ooscompare.js', nodeArgs)
-AgesSuccess = execute_js('ooacompare.js', nodeArgs)
+success = execute_js('compare.js', nodeArgs)
 
 while threading.active_count() > 1:
     pass

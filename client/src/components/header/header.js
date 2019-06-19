@@ -12,9 +12,6 @@ class Header extends Component {
             <li className="nav-item">
               <a href="/randomize" className="nav-link text-light">Generate Game</a>
             </li>
-            <li className="nav-item">
-              <a href="/settingspatch" className="nav-link text-light">Patch Palette/Music</a>
-            </li>
           </ul>
           <div className="col align-self-end">
             <h2 className="text-light text-right">OOS/A Web Randomizer</h2>

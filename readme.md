@@ -7,14 +7,7 @@
 You will need [Nodejs](https://nodejs.org/en/) for the back and front end dependencies:
 
 ```
-$ npm install
-```
-
-From the /src directory, to compile the front end code:
-
-```
-$ npm install
-$ npm run build
+$ npm run install-both
 ```
 
 ## Set up Base entries in DB
@@ -46,10 +39,8 @@ $ python dbBuild.py
 
 After all the npm modules are installed, front end compiled, and db entries created, go to the project root directory:
 ```
-$ npm start
+$ npm run dev
 ```
 
 ## Future Goals
 * Title screen/File Screen edits
-* Sprite swapping
-* ~~Double Check Sprite Palette 4 usage for potential color edits for sprites~~ Bombs use palette 4. Not recommended for editting.
