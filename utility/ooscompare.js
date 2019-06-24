@@ -63,45 +63,29 @@ function buildPatch(file, firstFile){
   }
 }
 
-mongoose.Promise = global.Promise;
-mongoose.connect(mongoDbURI, {useNewUrlParser: true}).then(db=>{
-  console.log(`Connected to db`);
-  fs.readdir('./seasons', (err, files)=>{
-    files.forEach(file =>{
-      if (file.slice(-3) == "txt"){
-        files.splice(files.indexOf(file), 1);
-        fs.unlink(`./seasons/${file}`, err=>{if (err) console.log(err)})
-      }
-    });
-  
-    files.forEach(file =>{
-      findUnequal(file);
-    })
-
-    basePatch.sort((a,b)=>{return a.offset - b.offset});
-    files.forEach(file =>{
-      buildPatch(file, files[0]);
-    })
-
-    seedAddr.sort((a,b)=>{return a - b});
-        const newBase = new Base({
-          game: "oos",
-          version: version,
-          patchData: basePatch
-        });
-        
-        newBase.save().then( savedBase => {
-          const newAddr = new Addr({
-            game: "oos",
-            patchData: seedAddr
-          });
-
-          newAddr.save().then ( savedAddr => {
-            console.log("Base and Addr records updated");
-            process.exit();
-          });
-        })
+fs.readdir('./seasons', (err, files)=>{
+  files.forEach(file =>{
+    if (file.slice(-3) == "txt"){
+      files.splice(files.indexOf(file), 1);
+      fs.unlink(`./seasons/${file}`, err=>{if (err) console.log(err)})
+    }
   });
-}).catch(err =>{
-  console.log(err);
+
+  files.forEach(file =>{
+    findUnequal(file);
+  })
+
+  basePatch.sort((a,b)=>{return a.offset - b.offset});
+  files.forEach(file =>{
+    buildPatch(file, files[0]);
+  })
+
+  seedAddr.sort((a,b)=>{return a - b});
+
+  console.log('=======')
+  console.log(Object.keys(basePatch).length);
+  console.log(seedAddr.length);
+  seedAddr.forEach( addr =>{
+    console.log(addr.toString(16));
+  })
 });

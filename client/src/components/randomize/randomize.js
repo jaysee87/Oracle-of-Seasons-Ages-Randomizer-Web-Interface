@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FileSelect from '../common/FileSelect';
-import CheckBox from '../common/CheckBox';
+import FileSelect from '../Common/FileSelect';
+import CheckBox from '../Common/CheckBox';
 
 const games = {
   oos: "Seasons",
@@ -9,7 +9,7 @@ const games = {
 
 const checkboxes = [
   ["hard", "Hard Difficulty", "Requires more advanced knowledge and techniques concerning travel, alternate means of damagings enemies, getting seeds from locations other than trees, etc."],
-  ["tree", "Tree Warp", "From an overworld location, warp to the main town's seed tree by opening the map, then hold start while closing the map. Does not affect item placement logic."],
+  ["treewarp", "Tree Warp", "From an overworld location, warp to the main town's seed tree by opening the map, then hold start while closing the map. Does not affect item placement logic."],
   ["dungeons", "Shuffle Dungeons", "Dungeon entrance shuffle. No other entrances are shuffled."],
   ["portals", "Shuffle Portals", "Shuffle which portal in Holodrom leads to which portal in Subrosia."],
 ]
@@ -20,7 +20,7 @@ class randomize extends Component {
     this.state = {
       game: "Seasons",
       hard: false,
-      tree: false,
+      treewarp: false,
       dungeons: false,
       portals: false,
       verified: false,
@@ -67,7 +67,7 @@ class randomize extends Component {
       options.push((<CheckBox key={checkboxes[x][0]} value={checkboxes[x][0]} label={checkboxes[x][1]} info={checkboxes[x][2]} checked={this.state[checkboxes[x][0]]} onCheck={this.toggleCheck}></CheckBox>))
     }
     return (
-      <div className="container">
+      <div className="container-fluid" id="base">
         <div className="card">
           <div className="card-header bg-header">
             <h2>Randomize Oracle of {this.state.game}</h2>

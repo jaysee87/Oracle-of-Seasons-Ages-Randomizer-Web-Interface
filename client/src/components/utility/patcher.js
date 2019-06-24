@@ -1,5 +1,4 @@
 import saver from 'file-saver';
-import blobutil from 'blobutil';
 
 const palette = [[0,0,0,38,142,68,236,190,166],
                 [0,0,0,51,158,191,236,190,166], // blue

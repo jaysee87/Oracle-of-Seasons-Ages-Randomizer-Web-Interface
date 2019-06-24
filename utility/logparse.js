@@ -11,6 +11,3 @@ lines.forEach(line => {
     items.push(location[1]);
   }
 })
-
-fs.writeFileSync('./locations.txt', locations.join('\n'))
-fs.writeFileSync('./items.txt', items.join('\n'));

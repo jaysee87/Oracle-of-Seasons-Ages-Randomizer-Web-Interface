@@ -21,22 +21,32 @@ router.post('/randomize', (req,res)=>{
   *   game:          'oos' or 'ooa'  (just append ".blob" to get file to pass into randomizer)
   *   hardMode:      Boolean
   *   treeWarp:      Boolean
+  *   dungeons:      Boolean
+  *   portals:       Boolean
   * 
   * Returns a String containing the url for the seed page
   */
+  const game = req.body.game;
+  if (game !== 'oos' && game !== 'ooa') {
+    return res.status(400).json({"nogame": "A valid game was not selected"});
+  }
   const randoRoot = './base/'
   const randoName = process.env.OS == "Windows_NT" ? "oracles-randomizer.exe" : "oracles-randomizer";
   const randoExec = randoRoot + randoName;
-  const gameFile = randoRoot + req.body.game + '.blob';
+  const gameFile = randoRoot + game + '.blob';
+  const argsBase = ['-hard', '-treewarp', '-dungeons', '-portals'];
+  const argsArray = [req.body.hardMode || false, req.body.treeWarp || false, req.body.dungeons || false, req.body.portals || false]
+  const argsToSend = argsBase.filter((arg, i) => {return argsArray[i]});
+  console.log(argsToSend);
   const hardMode = req.body.hardMode || false;
   const treeWarp = req.body.treeWarp || false;
+  const dungeons = req.body.dungeons || false;
+  const portals = req.body.portals || false;
 
-  let nameBase = `${req.body.game}rando_${version}_`;
+  let nameBase = `${game}rando_${version}_`;
   const baselength = nameBase.length;
-  let seedCollection = OOS;
-  if (req.body.game == "ooa"){
-    seedCollection = OOA;
-  }
+  let seedCollection = game === 'oos' ? OOS : OOA;
+
   const execArgs = [];
   if (hardMode){
     execArgs.push('-hard');
@@ -46,34 +56,39 @@ router.post('/randomize', (req,res)=>{
     execArgs.push('-treewarp');
   }
 
-  execArgs.push('-noui', gameFile);
+  execArgs.push('-race','-noui', gameFile);
   exec(randoExec, execArgs, (err, out, stderr) => {
     if (err) {
+      console.log("error");
       console.log(err);
       res.send(err);
       return
     } else {
       const lines = out.toString().split('\n');
-      const fileNameLine = lines[lines.length-3];
-      const i = fileNameLine.indexOf(nameBase) + baselength;
-      const seed = fileNameLine.substring(i, i+8);
+      const fileInfo = lines.filter(line => line.includes(version))[0] // find correct line from rando output
+        .split(' ').filter(word => word.includes(version))[0] // just the filename out of the string
+        .split('_') // breaks the filename into different segments [base, version, seed]
+      fileInfo[-1] = fileInfo[-1].split()
+      console.log(fileInfo);
+      const seed = fileInfo;
       const args = fileNameLine.substring(i+8, fileNameLine.length-4);
       const fileNameBase = `${nameBase}${seed}${args}`
-      const encodedSeed = seedHelper(fileNameLine) || seed;
+      const encodedSeed = seedHelper(fileInfo.join('x')) || seed;
       
       fs.readFile( fileNameBase + '.gbc', (err2, target)=>{
         if (err2) {
-          console.log(err);
-          res.send(err);
+          console.log("error 2");
+          console.log(err2);
+          res.send(err2);
           return
         }
         
-        Addr.find({game: req.body.game})
+        Addr.find({game: game})
           .sort({date: -1})
           .then(results =>{
             const result = results[0];
             const addrs = result.patchData;
-            Base.find({game: req.body.game, version: version})
+            Base.find({game: game, version: version})
               .sort({date: -1})
               .then(bases => {
                 // Base patch db entry needed so each seed has the correct fixes to the version if used after a new release
@@ -94,15 +109,20 @@ router.post('/randomize', (req,res)=>{
                   patchData: seedData,
                   hard: hardMode,
                   treewarp: treeWarp,
+                  dungeons: dungeons,
                   base: base.id
                 })
+
+                if (game === 'oos') {
+                  newSeed.portals = portals;
+                }
                 
                 newSeed.save().then( saved => {  
                   // Remove generated files and free some space              
                   fs.unlink(fileNameBase+'.gbc', err=>{if (err) console.log(err)});
                   fs.unlink(fileNameBase+'_log.txt',err=>{if (err) console.log(err)});
                   console.log("patch created");
-                  res.send(`/${req.body.game}/${encodedSeed}`);
+                  res.send(`/${game}/${encodedSeed}`);
                   return;
                 });                
               });            
@@ -111,7 +131,6 @@ router.post('/randomize', (req,res)=>{
     }
   });
 });
-
 
 router.get('/:game/:id', (req,res)=>{
   /*
@@ -126,6 +145,8 @@ router.get('/:game/:id', (req,res)=>{
   *   version: String indicating version of randomizer used
   *   hard: Boolean indicating if hard mode was enabled
   *   treewarp: Boolean indicating if treewarp was enabled
+  *   dungeons: Boolean indicating if dungeon shuffle was enabled
+  *   portals: Boolean indicating if subrosia portal was enabled  *   
   *   
   */
   const game = req.params.game;
@@ -155,7 +176,11 @@ router.get('/:game/:id', (req,res)=>{
             patch: patchData,
             version: version,
             hard: seed.hard,
-            treewarp: seed.treewarp
+            treewarp: seed.treewarp,
+            dungeons: seed.dungeons,
+          }
+          if (game === "oos"){
+            response.portals = seed.portals
           }
           res.send(response);
         });

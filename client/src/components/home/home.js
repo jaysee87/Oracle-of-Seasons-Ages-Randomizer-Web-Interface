@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Home extends Component {
   render() {
     return (
-      <div className="container">
+      <div className="container-fluid" id="base">
         <div className="card">
           <div className="card-header bg-header">
             <h1 className='text-center'>The Legend of Zelda: Oracle of Seasons/Ages Randomizer</h1>

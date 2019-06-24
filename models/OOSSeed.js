@@ -27,6 +27,37 @@ const OOSSchema = new Schema({
     default: false
   },
 
+  dungeons: {
+    type: Boolean,
+    default: false,
+  },
+
+  portals: {
+    type: Boolean,
+    default: false,
+  },
+
+  locked: {
+    type: Boolean,
+    default: false,
+  },
+
+  // seconds since epoch
+  genTime: {
+    type: Number,
+    default: (new Date).getTime()/1000,
+  },
+
+  timeout: {
+    type: Number,
+    default: 14400,
+  },
+  
+  unlockTime: {
+    type: Number,
+    default: 0,
+  },
+
   base: {
     type: Schema.Types.ObjectId,
     ref: 'bases'

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Spinner from '../spinner/spinner';
-import FileSelect from '../common/FileSelect';
-import './seed.css';
+import Spinner from '../Spinner/Spinner';
+import FileSelect from '../Common/FileSelect';
+import Log from '../Log/Log';
+import './Seed.css';
 
-class seed extends Component {
+class Seed extends Component {
   constructor(){
     super();
     this.state = {
@@ -14,7 +15,6 @@ class seed extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props);
     if (!["oos", "ooa"].includes(this.props.match.params.game)){
       this.props.history.push('/randomize');
     }
@@ -35,7 +35,7 @@ class seed extends Component {
   }
 
   render() {
-    const {game, seed} = this.props.match;
+    const {game, seed} = this.props.match.params;
     const {seedData} = this.state;
     let bodyContent;
     let titleText;
@@ -83,13 +83,14 @@ class seed extends Component {
           </div>
     
           <ul className="mt-5">
-            <FileSelect game={gameTitle} />
+            <FileSelect game={game} />
 
             <div className="btn-group btn-group-lg mt-4">
               <button type="button" className="btn btn-primary btn-download" id="music" disabled>Save Rom (Music)</button>
               <button type="button" className="btn btn-secondary btn-download" id="no-music" disabled>Save Rom (No Music)</button>
             </div>
           </ul>
+          <Log game={this.props.match.params.game} mode="plan" />
         </div>
       )
       titleText = `Oracle of ${gameTitle} (${seedData.version})`
@@ -97,7 +98,7 @@ class seed extends Component {
 
 
     return (
-      <div className="container">
+      <div className="container-fluid" id="base">
         <div className="card">
           <div className="card-header bg-header">
             <div className="col">
@@ -113,4 +114,4 @@ class seed extends Component {
   }
 }
 
-export default seed;
+export default Seed;

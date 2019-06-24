@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SPLink from './SpinningLink.gif'
 
-export default class spinner extends Component {
+class Spinner extends Component {
   render() {
     return (
       <div className="media" id="loading" >
@@ -12,3 +12,5 @@ export default class spinner extends Component {
     )
   }
 }
+
+export default Spinner;
