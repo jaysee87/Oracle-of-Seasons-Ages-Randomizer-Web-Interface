@@ -7,9 +7,10 @@ class Log extends Component {
     this.state = {
       selectedLocation: "",
       selectedSubLocation: "",
+      selectedCategory: "",
       locations: {},
       items: {},
-      companion: "Ricky"
+      companion: "Ricky",
     }
     this.locationClick = this.locationClick.bind(this);
     this.itemSelect = this.itemSelect.bind(this);
@@ -26,11 +27,14 @@ class Log extends Component {
   displayItemName(item){
     // If from generated seed, log will be provide a string
     // If plando, will be an object that contains object with name and id
+    let returnItem;
     if (typeof(item) === 'string'){
-      return toTitleCase(item);
+      returnItem = toTitleCase(item);
     } else {
-      return toTitleCase(item.name);
+      returnItem = toTitleCase(item.name);
     }
+
+    return returnItem === "Flute" ? `${this.state.companion}'s Flute` : returnItem;
   }
 
   itemSelect(e,obj){
@@ -80,7 +84,7 @@ class Log extends Component {
   
     const locationList = this.state.locations.keys.map(key=>{
       const cName = key === this.state.selectedLocation ? 'btn btn-outline-primary p-4' : 'p-4';
-      return <a href="/" className={cName} id={key} key={key} onClick={e => this.locationClick(e, 'selectedLocation', key)}>{key}</a>
+      return <a href="/" className={cName} id={key} key={key} onClick={e => {this.locationClick(e, 'selectedLocation', key);this.locationClick(e, 'selectedSubLocation', '')}}>{key}</a>
     })
     const itemList = Object.keys(this.state.locations[this.state.selectedLocation]).map(key => {
       let item = this.state.locations[this.state.selectedLocation][key];
@@ -91,7 +95,7 @@ class Log extends Component {
       const cNameRow = key === this.state.selectedSubLocation ? 'table-info' : '';
       return (
         <tr key={key} id={key} onClick={e => this.locationClick(e, 'selectedSubLocation', key)} className={cNameRow}>
-          <td>{key}</td>
+          <td>{this.displayItemName(key)}</td>
           <td>{this.displayItemName(item)}</td>
         </tr>
       )
@@ -114,39 +118,39 @@ class Log extends Component {
 
     if (mode === 'plan'){
       tableClass.push('col-9');
+      let {selectedCategory} = this.state
       // New copy to avoid changing component's state
       let categoryArray = this.state.items.keys.map(key=>key);
       if  (this.state.items.specials.includes(this.state.selectedLocation)){
         categoryArray.unshift('Dungeon Items')
        } else if (this.state.selectedLocation === "Seed Trees") {
-         categoryArray = ["Seeds"]
+         categoryArray = ["Seeds"];
+         selectedCategory = "Seeds";
        }
 
 
       const itemsToPlace = categoryArray.map((category,i) => {
-        const offset = i * -48;
         const filterkey = category === 'Dungeon Items' ? this.state.selectedLocation : category;
         const categoryItems = this.state.items.items.filter( item => item.category === filterkey)
         const itemSelects = categoryItems
           .filter(item => !item.placed)
-          // .map(item => <a href="/" key={`${item.name}-${item.index}`} onClick={e=>this.itemSelect(e, item)} className="dropdown-item">{item.name}</a>)
           .map(item =>
-            <option key={`${item.name}-${item.index}`} onClick={e=>this.itemSelect(e, item)}>{toTitleCase(item.name)}</option>)
-        // return (          
-        //   <div key={category} name={category} id={`${category}-items`} className='dropleft'>
-        //     <button className="btn btn-info btn-block dropdown-toggle mb-2" type="button" data-toggle="dropdown" data-offset={`${offset},10`} data-boundary="window">{category}</button>
-        //     <div className="dropdown-menu mb-5" aria-labelledby="dropdownMenuButton">
-        //       {itemSelects}
-        //     </div>
-        //   </div>
-        // )
+            <option key={`${item.name}-${item.index}`} onClick={e=>this.itemSelect(e, item)}>{this.displayItemName(item)}</option>)
         return (
           <div key={category} className="form-group">
-            <h5>{category}</h5>
-            <select  id={category} className='form-control' multiple size="2">
+            <h5 className="btn btn-block btn-info" onClick={e=>this.locationClick(e, 'selectedCategory', category)}>{category}</h5>
+            <select  id={category} className='form-control' multiple={selectedCategory === category} size="7" hidden={selectedCategory !== category}>
               {itemSelects}
             </select>
           </div>
+        )
+      })
+
+      const companions = ["Ricky", "Dimitri", "Moosh"].map(companion=> {
+        const companionClass = ["btn"];
+        companionClass.push(companion === this.state.companion ? 'btn-info' : 'btn-secondary');
+        return (
+          <button className={companionClass.join(' ')} onClick={e=>this.locationClick(e,'companion', companion)}>{companion}</button>
         )
       })
 
@@ -154,8 +158,8 @@ class Log extends Component {
         <table className={tableClass.join(' ')}>
           <thead>
             <tr>
-              <th>Location</th>
-              <th>Item</th>
+              <th className='w-50'>Location</th>
+              <th className='w-50'>Item</th>
             </tr>
           </thead>
           <tbody>
@@ -163,6 +167,10 @@ class Log extends Component {
           </tbody>
         </table>
         <div className="col-3">
+          <h6 className="text-center">Animal Region</h6>
+          <div className="btn-group w-100 mb-4" role="group">
+            {companions}
+          </div>
           {itemsToPlace}
         </div>
       </div>)
