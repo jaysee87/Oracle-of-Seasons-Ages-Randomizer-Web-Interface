@@ -1,0 +1,274 @@
+oracles randomizer 4.0.0-beta1
+generated 2019-06-26T02:20:56-05:00
+seed: 12345678
+sha-1 sum: d84c2e5ffd179d9128544341ed95e0e64ee6aa45
+difficulty: hard
+
+
+-- progression items --
+
+sphere 0:
+hero's cave key chest        <- wooden/noble sword
+
+sphere 1:
+maku tree                    <- (hyper) slingshot
+
+sphere 2:
+horon village tree           <- ember seeds
+
+sphere 3:
+shop, 20 rupees              <- bombs, 10
+
+sphere 4:
+horon village SE chest       <- rod of autumn
+
+sphere 5:
+D2 rope chest                <- roc's feather/cape
+D2 rope drop                 <- rusty bell
+
+sphere 6:
+eyeglass lake, across bridge <- round jewel
+subrosia, open cave          <- ribbon
+
+sphere 7:
+subrosia, locked cave        <- shovel
+
+sphere 8:
+subrosia seaside             <- power bracelet
+
+sphere 9:
+blaino's gym                 <- (magic) boomerang
+chest on top of D2           <- gnarled key
+
+sphere 10:
+D1 floormaster room          <- magnetic gloves
+
+sphere 11:
+cave outside D2              <- seed satchel
+subrosia village chest       <- rod of summer
+
+sphere 12:
+floodgate keeper's house     <- square jewel
+woods of winter, 2nd cave    <- dimitri's flute
+
+sphere 13:
+chest in goron mountain      <- x-shaped jewel
+chest in master diver's cave <- (magic) boomerang
+subrosian wilds chest        <- zora's flippers
+tower of spring              <- rod of winter
+
+sphere 14:
+cave north of D1             <- rod of spring
+samasa desert chest          <- pyramid jewel
+
+sphere 15:
+D6 2F armos chest            <- master's plaque
+tarm ruins, under tree       <- roc's feather/cape
+
+sphere 16:
+master diver's reward        <- floodgate key
+
+sphere 17:
+D3 mimic chest               <- (hyper) slingshot
+D3 quicksand terrace         <- dragon key
+
+
+-- small keys and boss keys --
+
+sphere 5:
+D2 blade chest               <- D2 small key
+D2 left from entrance        <- D2 small key
+
+sphere 9:
+D2 roller chest              <- D2 boss key
+D5 armos chest               <- D5 small key
+D5 cart chest                <- D5 small key
+D5 gibdo/zol chest           <- D5 small key
+D5 spiral chest              <- D5 small key
+D5 terrace chest             <- D5 small key
+
+sphere 10:
+D1 stalfos drop              <- D1 boss key
+
+sphere 13:
+D7 armos puzzle              <- D7 small key
+D7 magunesu chest            <- D7 small key
+D7 wizzrobe chest            <- D7 boss key
+D7 zol button                <- D7 small key
+
+sphere 14:
+D5 magnet ball chest         <- D5 boss key
+D7 spike chest               <- D7 small key
+D8 armos chest               <- D8 small key
+D8 hardhat drop              <- D8 small key
+D8 magnet ball room          <- D8 small key
+D8 spinner chest             <- D8 small key
+D8 three eyes chest          <- D8 small key
+
+sphere 15:
+D6 1F east                   <- D6 small key
+D6 1F terrace                <- D6 small key
+D6 beamos room               <- D6 boss key
+D6 spinner north             <- D6 small key
+
+sphere 16:
+D7 B2F drop                  <- D7 small key
+
+sphere 17:
+D3 giant blade room          <- D3 boss key
+D3 moldorm chest             <- D3 small key
+D3 roller chest              <- D3 small key
+
+sphere 18:
+D4 dark room                 <- D4 small key
+D4 maze chest                <- D4 small key
+D4 pool                      <- D4 boss key
+D4 pot puzzle                <- D4 small key
+D4 terrace                   <- D4 small key
+D4 torch chest               <- D4 small key
+D8 SE lava chest             <- D8 small key
+D8 pols voice chest          <- D8 boss key
+D8 spark chest               <- D8 small key
+
+inaccessible:
+D1 basement                  <- D1 small key
+D1 goriya chest              <- D1 small key
+D2 pot chest                 <- D2 small key
+hero's cave sword chest      <- D0 small key
+
+
+-- other items --
+
+sphere 1:
+hero's cave rupee chest      <- piece of heart
+
+sphere 3:
+holly's house                <- heart container
+shop, 30 rupees              <- wooden shield
+subrosian dance hall         <- star-shaped ore
+temple of seasons            <- rupees, 30
+tower of winter              <- rupees, 30
+
+sphere 4:
+shop, 150 rupees             <- whimsical ring
+
+sphere 5:
+woods of winter tree         <- pegasus seeds
+woods of winter, 1st cave    <- heart container
+
+sphere 6:
+subrosia market, 1st item    <- heart ring L-2
+subrosia market, 2nd item    <- gasha seed
+subrosia market, 5th item    <- bombs, 10
+
+sphere 9:
+D2 boss                      <- D2 dungeon map
+D2 spiral chest              <- rupees, 1
+horon village SW chest       <- rare peach stone
+north horon tree             <- scent seeds
+tower of summer              <- peace ring
+
+sphere 10:
+D1 boss                      <- D1 dungeon map
+
+sphere 11:
+D5 basement                  <- gasha seed
+D5 left chest                <- D5 compass
+D5 spinner chest             <- D5 dungeon map
+D5 stalfos room              <- red holy ring
+tower of autumn              <- rupees, 20
+
+sphere 12:
+dry eyeglass lake, east cave <- blue ore
+spool swamp tree             <- mystery seeds
+
+sphere 13:
+D7 bombed wall chest         <- D7 dungeon map
+D7 quicksand chest           <- gasha seed
+black beast's chest          <- bombs, 10
+master diver's challenge     <- rupees, 10
+mt. cucco, platform cave     <- bombs, 10
+mt. cucco, talon's cave      <- red ore
+natzu region, across water   <- bombproof ring
+old man in treehouse         <- expert's ring
+samasa desert pit            <- rupees, 30
+spring banana tree           <- gasha seed
+sunken city tree             <- scent seeds
+western coast, beach chest   <- charge ring
+western coast, in house      <- rupees, 100
+
+sphere 14:
+D5 boss                      <- iron shield
+D8 darknut chest             <- rupees, 100
+D8 eye drop                  <- D8 compass
+D8 spike room                <- rupees, 50
+cave south of mrs. ruul      <- gasha seed
+diving spot outside D4       <- spring banana
+dry eyeglass lake, west cave <- rupees, 50
+great furnace                <- wooden/noble sword
+moblin keep                  <- red joy ring
+sunken city, summer cave     <- heart container
+
+sphere 15:
+D6 2F gibdo chest            <- D6 dungeon map
+D6 armos hall                <- D6 compass
+D6 boss                      <- gasha seed
+D6 crystal trap room         <- heart container
+D6 escape room               <- rupees, 10
+D6 magnet ball drop          <- piece of heart
+D6 vire chest                <- member's card
+eastern suburbs, on cliff    <- treasure map
+goron mountain, across pits  <- power ring L-2
+lost woods                   <- fool's ore
+tarm ruins tree              <- gale seeds
+
+sphere 16:
+D7 boss                      <- gasha seed
+D7 maze chest                <- heart container
+D7 right of entrance         <- bombs, 10
+D7 stalfos chest             <- D7 compass
+member's shop 1              <- heart container
+member's shop 2              <- gasha seed
+member's shop 3              <- cursed ring
+
+sphere 17:
+D3 bombed wall chest         <- seed satchel
+D3 boss                      <- rupees, 5
+D3 trampoline chest          <- D3 dungeon map
+D3 water room                <- D3 compass
+D3 zol chest                 <- hard ore
+spool swamp cave             <- bombs, 10
+
+sphere 18:
+D4 boss                      <- D4 dungeon map
+D4 cracked floor room        <- D4 compass
+D4 dive spot                 <- heart container
+D4 north of entrance         <- heart container
+D4 water ring room           <- gasha seed
+D8 SW lava chest             <- D8 dungeon map
+D8 boss                      <- blue luck ring
+D8 ghost armos drop          <- rupees, 20
+subrosian smithy             <- gasha seed
+
+inaccessible:
+D1 block-pushing room        <- D1 compass
+D1 button chest              <- gasha seed
+D1 lever room                <- bombs, 10
+D1 railway chest             <- gasha seed
+D1 stalfos chest             <- rupees, 5
+D2 moblin chest              <- D2 compass
+D2 terrace chest             <- rupees, 5
+
+
+-- default seasons --
+
+eastern suburbs <- winter
+holodrum plain  <- autumn
+lost woods      <- winter
+north horon     <- winter
+spool swamp     <- summer
+sunken city     <- spring
+tarm ruins      <- summer
+temple remains  <- autumn
+western coast   <- autumn
+woods of winter <- winter
