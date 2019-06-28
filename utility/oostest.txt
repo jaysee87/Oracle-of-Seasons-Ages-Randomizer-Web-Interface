@@ -1,0 +1,271 @@
+oracles randomizer 4.0.0-beta1
+generated 2019-06-26T22:04:19-05:00
+seed: 12345678
+sha-1 sum: efb658341f3ee63bdb63967f3ddd23d6486d90f9
+difficulty: hard
+
+
+-- progression items --
+
+sphere 0:
+hero's cave key chest        <- wooden/noble sword
+
+sphere 1:
+hero's cave sword chest      <- bombs, 10
+
+sphere 2:
+horon village SE chest       <- seed satchel
+
+sphere 3:
+horon village tree           <- ember seeds
+
+sphere 4:
+subrosia market, 2nd item    <- rupees, 30
+
+sphere 5:
+shop, 150 rupees             <- roc's feather/cape
+
+sphere 6:
+temple of seasons            <- (hyper) slingshot
+woods of winter tree         <- gale seeds
+
+sphere 7:
+master diver's challenge     <- power bracelet
+
+sphere 8:
+horon village SW chest       <- square jewel
+tower of autumn              <- rod of autumn
+
+sphere 9:
+eyeglass lake, across bridge <- magnetic gloves
+
+sphere 10:
+cave outside D2              <- zora's flippers
+subrosia village chest       <- floodgate key
+
+sphere 11:
+D2 left from entrance        <- roc's feather/cape
+D4 dive spot                 <- gnarled key
+D4 north of entrance         <- (hyper) slingshot
+
+sphere 12:
+D1 block-pushing room        <- (magic) boomerang
+D1 railway chest             <- x-shaped jewel
+D7 B2F drop                  <- rod of spring
+floodgate keeper's house     <- rod of summer
+mt. cucco, platform cave     <- rod of winter
+samasa desert chest          <- round jewel
+
+sphere 13:
+black beast's chest          <- dragon key
+diving spot outside D4       <- pyramid jewel
+holly's house                <- (magic) boomerang
+
+sphere 14:
+D8 eye drop                  <- rusty bell
+
+
+-- small keys and boss keys --
+
+sphere 1:
+hero's cave rupee chest      <- D0 small key
+
+sphere 11:
+D2 boss                      <- D2 small key
+D2 roller chest              <- D2 small key
+D2 rope chest                <- D2 small key
+D2 rope drop                 <- D2 boss key
+D3 quicksand terrace         <- D3 small key
+D3 roller chest              <- D3 boss key
+D3 zol chest                 <- D3 small key
+D4 dark room                 <- D4 small key
+D4 maze chest                <- D4 small key
+D4 pot puzzle                <- D4 small key
+D4 terrace                   <- D4 small key
+D4 torch chest               <- D4 boss key
+D4 water ring room           <- D4 small key
+
+sphere 12:
+D1 boss                      <- D1 small key
+D1 stalfos chest             <- D1 small key
+D1 stalfos drop              <- D1 boss key
+D7 armos puzzle              <- D7 small key
+D7 quicksand chest           <- D7 boss key
+D7 spike chest               <- D7 small key
+D7 wizzrobe chest            <- D7 small key
+D7 zol button                <- D7 small key
+
+sphere 14:
+D6 1F terrace                <- D6 small key
+D6 crystal trap room         <- D6 small key
+D6 escape room               <- D6 small key
+D6 spinner north             <- D6 boss key
+D8 SW lava chest             <- D8 boss key
+D8 armos chest               <- D8 small key
+D8 ghost armos drop          <- D8 small key
+D8 hardhat drop              <- D8 small key
+D8 pols voice chest          <- D8 small key
+D8 spike room                <- D8 small key
+D8 spinner chest             <- D8 small key
+D8 three eyes chest          <- D8 small key
+
+sphere 15:
+D5 armos chest               <- D5 small key
+D5 gibdo/zol chest           <- D5 small key
+D5 spinner chest             <- D5 small key
+D5 spiral chest              <- D5 boss key
+D5 stalfos room              <- D5 small key
+D5 terrace chest             <- D5 small key
+
+inaccessible:
+D7 stalfos chest             <- D7 small key
+
+
+-- other items --
+
+sphere 1:
+maku tree                    <- energy ring
+
+sphere 4:
+shop, 20 rupees              <- bombs, 10
+shop, 30 rupees              <- wooden shield
+subrosia market, 5th item    <- gasha seed
+
+sphere 6:
+subrosia, open cave          <- rupees, 5
+subrosian dance hall         <- gasha seed
+tower of winter              <- bombs, 10
+
+sphere 7:
+blaino's gym                 <- light ring L-2
+chest in master diver's cave <- rupees, 10
+north horon tree             <- pegasus seeds
+sunken city tree             <- scent seeds
+
+sphere 11:
+D2 blade chest               <- expert's ring
+D2 moblin chest              <- D2 compass
+D2 pot chest                 <- wooden/noble sword
+D2 spiral chest              <- seed satchel
+D2 terrace chest             <- D2 dungeon map
+D3 bombed wall chest         <- rupees, 5
+D3 boss                      <- D3 dungeon map
+D3 giant blade room          <- red luck ring
+D3 mimic chest               <- moosh's flute
+D3 moldorm chest             <- gasha seed
+D3 trampoline chest          <- gasha seed
+D3 water room                <- D3 compass
+D4 boss                      <- D4 dungeon map
+D4 cracked floor room        <- heart container
+D4 pool                      <- D4 compass
+cave north of D1             <- bombs, 10
+cave south of mrs. ruul      <- piece of heart
+chest in goron mountain      <- gasha seed
+moblin keep                  <- armor ring L-3
+natzu region, across water   <- heart container
+old man in treehouse         <- rang ring L-1
+woods of winter, 1st cave    <- heart container
+woods of winter, 2nd cave    <- rupees, 5
+
+sphere 12:
+D1 basement                  <- rupees, 30
+D1 button chest              <- fool's ore
+D1 floormaster room          <- D1 compass
+D1 goriya chest              <- D1 dungeon map
+D1 lever room                <- gasha seed
+D7 bombed wall chest         <- D7 dungeon map
+D7 boss                      <- bombs, 10
+D7 magunesu chest            <- D7 compass
+D7 maze chest                <- master's plaque
+goron mountain, across pits  <- subrosian ring
+samasa desert pit            <- rupees, 20
+spool swamp tree             <- mystery seeds
+subrosian wilds chest        <- rupees, 20
+tower of spring              <- bombproof ring
+
+sphere 13:
+dry eyeglass lake, east cave <- shovel
+dry eyeglass lake, west cave <- heart container
+eastern suburbs, on cliff    <- red ore
+master diver's reward        <- gasha seed
+mt. cucco, talon's cave      <- gasha seed
+spool swamp cave             <- gasha seed
+spring banana tree           <- ribbon
+sunken city, summer cave     <- rupees, 50
+
+sphere 14:
+D6 1F east                   <- gasha seed
+D6 2F armos chest            <- D6 compass
+D6 2F gibdo chest            <- treasure map
+D6 armos hall                <- star-shaped ore
+D6 beamos room               <- D6 dungeon map
+D6 boss                      <- member's card
+D6 magnet ball drop          <- rupees, 50
+D6 vire chest                <- bombs, 10
+D8 SE lava chest             <- D8 compass
+D8 boss                      <- rare peach stone
+D8 darknut chest             <- piece of heart
+D8 magnet ball room          <- whisp ring
+D8 spark chest               <- D8 dungeon map
+lost woods                   <- blue ore
+subrosia seaside             <- armor ring L-2
+subrosia, locked cave        <- gasha seed
+tarm ruins tree              <- pegasus seeds
+tarm ruins, under tree       <- rupees, 1
+tower of summer              <- rupees, 100
+
+sphere 15:
+D5 basement                  <- rupees, 30
+D5 boss                      <- spring banana
+D5 cart chest                <- D5 compass
+D5 left chest                <- D5 dungeon map
+D5 magnet ball chest         <- iron shield
+great furnace                <- heart container
+member's shop 1              <- rupees, 100
+member's shop 2              <- green joy ring
+member's shop 3              <- heart container
+subrosia market, 1st item    <- heart container
+western coast, beach chest   <- rupees, 10
+western coast, in house      <- heart container
+
+inaccessible:
+D7 right of entrance         <- hard ore
+chest on top of D2           <- bombs, 10
+subrosian smithy             <- gasha seed
+
+
+-- dungeon entrances --
+
+D1 entrance <- D1
+D2 entrance <- D4
+D3 entrance <- D7
+D4 entrance <- D6
+D5 entrance <- D2
+D6 entrance <- D8
+D7 entrance <- D5
+D8 entrance <- D3
+
+
+-- subrosia portals --
+
+eastern suburbs      <- subrosia market
+eyeglass lake        <- D8 entrance
+horon village        <- strange brothers
+mt. cucco            <- house of pirates
+spool swamp          <- great furnace
+temple remains lower <- volcanoes west
+temple remains upper <- volcanoes east
+
+
+-- default seasons --
+
+eastern suburbs <- autumn
+holodrum plain  <- spring
+lost woods      <- winter
+north horon     <- spring
+spool swamp     <- summer
+sunken city     <- autumn
+tarm ruins      <- summer
+temple remains  <- winter
+western coast   <- winter
+woods of winter <- autumn

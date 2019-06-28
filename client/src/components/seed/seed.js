@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {checkStore} from '../Utility/storage';
 import Spinner from '../Spinner/Spinner';
 import FileSelect from '../Common/FileSelect';
 import Log from '../Log/Log';
@@ -10,7 +11,23 @@ class Seed extends Component {
     super();
     this.state = {
       loading: true,
-      seedData: null
+      seedData: null,
+      game: null,
+    }
+
+    this.setValid = this.setValid.bind(this);
+    this.checkGame = this.checkGame.bind(this);
+  }
+
+  checkGame(){
+    checkStore(this.state.game || "Seasons", this.setValid);
+  }
+
+  setValid(valid){
+    if (!this.state.valid){
+      this.setState({
+        valid: valid
+      })
     }
   }
 
@@ -22,16 +39,22 @@ class Seed extends Component {
 
   componentDidMount(){
     const {game, seed} = this.props.match.params;
+    const storageLabel = game === 'oos' ? 'Seasons' : 'Ages';
     axios.get(`/api/${game}/${seed}`)
       .then(res => {
         this.setState({
           loading: false,
-          seedData: res.data
+          seedData: res.data,
+          game: storageLabel
         })
       })
       .catch(err => {
         console.log('Unable to retrieve');
       })
+  }
+
+  componentDidUpdate(){
+    this.checkGame();
   }
 
   render() {
@@ -82,15 +105,11 @@ class Seed extends Component {
             </div>
           </div>
     
-          <ul className="mt-5">
-            <FileSelect game={game} />
-
-            <div className="btn-group btn-group-lg mt-4">
-              <button type="button" className="btn btn-primary btn-download" id="music" disabled>Save Rom (Music)</button>
-              <button type="button" className="btn btn-secondary btn-download" id="no-music" disabled>Save Rom (No Music)</button>
-            </div>
-          </ul>
-          <Log game={this.props.match.params.game} mode="plan" />
+          <div className="row my-5 px-4">
+            <button type="button" className="btn btn-primary btn-block col-3" id="music" disabled={!this.state.valid}>Save Rom</button>
+            <FileSelect game={game === 'oos' ? 'Seasons' : 'Ages'} inline={true} checkGame={this.checkGame} valid={this.state.valid}/>
+          </div>
+          <Log game={this.props.match.params.game} mode="seed" spoiler={seedData.spoiler}/>
         </div>
       )
       titleText = `Oracle of ${gameTitle} (${seedData.version})`

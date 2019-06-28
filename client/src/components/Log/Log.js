@@ -33,8 +33,40 @@ class Log extends Component {
     } else {
       returnItem = toTitleCase(item.name);
     }
-
     return returnItem === "Flute" ? `${this.state.companion}'s Flute` : returnItem;
+  }
+
+  displayPlaythrough(tableClass){
+    const spheres =  this.state.locations.playthrough.map((sphere, i)=>{
+      const itemList = sphere.map(item => {
+        const key = Object.keys(item)[0];
+        const itemName = item[key];
+        return (
+          <tr key={key} id={key}>
+            <td className='w-50'>{this.displayItemName(key)}</td>
+            <td className='w-50'>{this.displayItemName(itemName)}</td>
+          </tr>
+        )
+      })
+      return (
+        <div key={`${i}`}>
+          <h5>Sphere {i}</h5>
+          <table className={tableClass.join(' ')}>
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Item</th>
+              </tr>
+            </thead>
+            <tbody>
+              {itemList}
+            </tbody>
+          </table>
+        </div>
+      )
+    })
+
+    return spheres;
   }
 
   itemSelect(e,obj){
@@ -68,6 +100,15 @@ class Log extends Component {
     if (['ooa', 'oos'].includes(this.props.game)){
       const locations = require(`./${this.props.game}/locations.json`);
       const items = require(`./${this.props.game}/items.json`);
+      if (this.props.mode ===  'seed'){        
+        locations.keys.unshift('playthrough');
+        Object.keys(this.props.spoiler).forEach(key => {
+          locations[key] = this.props.spoiler[key];
+          if (['portals', 'dungeons', 'seasons'].includes(key)){
+
+          }
+        })
+      }
       this.setState({
         selectedLocation: locations.keys[0],
         locations: locations,       
@@ -84,22 +125,25 @@ class Log extends Component {
   
     const locationList = this.state.locations.keys.map(key=>{
       const cName = key === this.state.selectedLocation ? 'btn btn-outline-primary p-4' : 'p-4';
-      return <a href="/" className={cName} id={key} key={key} onClick={e => {this.locationClick(e, 'selectedLocation', key);this.locationClick(e, 'selectedSubLocation', '')}}>{key}</a>
+      return <a href="/" className={cName} id={key} key={key} onClick={e => {this.locationClick(e, 'selectedLocation', key);this.locationClick(e, 'selectedSubLocation', '')}}>{this.displayItemName(key)}</a>
     })
-    const itemList = Object.keys(this.state.locations[this.state.selectedLocation]).map(key => {
-      let item = this.state.locations[this.state.selectedLocation][key];
-      if (item.length < 1) {
-        item = "<Not Set>"
-      };
 
-      const cNameRow = key === this.state.selectedSubLocation ? 'table-info' : '';
-      return (
-        <tr key={key} id={key} onClick={e => this.locationClick(e, 'selectedSubLocation', key)} className={cNameRow}>
-          <td>{this.displayItemName(key)}</td>
-          <td>{this.displayItemName(item)}</td>
-        </tr>
-      )
-    })
+    let itemList;
+    if (this.state.selectedLocation !== 'playthrough'){
+      itemList = Object.keys(this.state.locations[this.state.selectedLocation]).map(key => {
+        let item = this.state.locations[this.state.selectedLocation][key];
+        if (item.length < 1) {
+          item = "<Not Set>"
+        };
+        const cNameRow = key === this.state.selectedSubLocation ? 'table-info' : '';
+        return (
+          <tr key={key} id={key} onClick={e => this.locationClick(e, 'selectedSubLocation', key)} className={cNameRow}>
+            <td className="w-50">{this.displayItemName(key)}</td>
+            <td className="w-50">{this.displayItemName(item)}</td>
+          </tr>
+        )
+      })
+    }
 
     let itemTable;
     itemTable = (
@@ -115,6 +159,9 @@ class Log extends Component {
         </tbody>
       </table>
     )
+    if (this.state.selectedLocation === 'playthrough'){
+      itemTable = this.displayPlaythrough(tableClass);
+    }
 
     if (mode === 'plan'){
       tableClass.push('col-9');
@@ -154,26 +201,17 @@ class Log extends Component {
         )
       })
 
-      itemTable = (<div className="row">
-        <table className={tableClass.join(' ')}>
-          <thead>
-            <tr>
-              <th className='w-50'>Location</th>
-              <th className='w-50'>Item</th>
-            </tr>
-          </thead>
-          <tbody>
-            {itemList}
-          </tbody>
-        </table>
-        <div className="col-3">
-          <h6 className="text-center">Animal Region</h6>
-          <div className="btn-group w-100 mb-4" role="group">
-            {companions}
+      itemTable = (
+        <div className="row">
+          <div className="col-3">
+            <h6 className="text-center">Animal Region</h6>
+            <div className="btn-group w-100 mb-4" role="group">
+              {companions}
+            </div>
+            {itemsToPlace}
           </div>
-          {itemsToPlace}
         </div>
-      </div>)
+      )
     }
 
     return (

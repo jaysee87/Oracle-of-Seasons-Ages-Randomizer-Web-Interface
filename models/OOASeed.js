@@ -31,6 +31,11 @@ const OOASchema = new Schema({
     type: Boolean,
     default: false,
   },
+  
+  spoiler: {
+    type: Object,
+    required: true
+  },
 
   locked: {
     type: Boolean,
@@ -51,6 +56,10 @@ const OOASchema = new Schema({
   unlockTime: {
     type: Number,
     default: 0,
+  },
+
+  unlockCode: {
+    type: String,
   },
 
   base: {

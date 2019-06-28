@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FileSelect from '../Common/FileSelect';
 import CheckBox from '../Common/CheckBox';
 import {checkStore} from '../Utility/storage';
+import uuid from 'uuid';
 import axios from 'axios';
 
 const games = {
@@ -25,7 +26,9 @@ class randomize extends Component {
       treewarp: false,
       dungeons: false,
       portals: false,
+      race: false,
       valid: false,
+      unlock: uuid.v4().replace(/-/g,''),
     };
     this.validRom = false;
     this.selectGame = this.selectGame.bind(this);
@@ -64,10 +67,11 @@ class randomize extends Component {
       hardMode: this.state.hard,
       treeWarp: this.state.treewarp,
       dungeons: this.state.dungeons,
-      portals: this.state.portals
+      portals: this.state.portals,    
     }
     axios.post('/api/randomize', data)
-      .then(res => console.log(res));
+      .then(res => this.props.history.push(res.data))
+      .catch(err => console.log(err))
   }
 
   componentDidMount(){
@@ -105,7 +109,37 @@ class randomize extends Component {
       options.push((<CheckBox key={checkboxes[x][0]} value={checkboxes[x][0]} label={checkboxes[x][1]} info={checkboxes[x][2]} checked={this.state[checkboxes[x][0]]} onCheck={this.toggleCheck}></CheckBox>))
     }
 
-    console.log(this.state.valid);
+    let raceBody = (<div></div>);
+
+    if (this.state.race){
+      raceBody = (
+        <div className="card-body">    
+          <div className="row">
+            <div className="col">
+              <h6>Unlock Code</h6>
+              <div className="input-group">
+                <div className="form-control">{this.state.unlock}</div>
+                <div className="input-group-append">
+                  <button className="btn btn-primary"><i className="fas fa-copy mr-2"></i>Copy Code to Clipboard</button>
+                </div>
+              </div>
+              <p className="text-black-50 mt-3">Needed to unlock the spoiler sooner. Note: once you generate the seed, you will NOT have access to this code, so please copy this first, otherwise you will have to wait the specified time before the log is available.</p>
+            </div>
+            <div className="col">
+              <h6>Spoiler Lock Duration</h6>
+              <div className="input-group">
+                <div className="form-control">{this.state.unlock}</div>
+                <div className="input-group-append">
+                  <button className="btn btn-primary"><i className="fas fa-copy"></i></button>
+                </div>
+              </div>              
+              <p className="text-black-50 mt-3">How long in minutes before the spoiler unlocks (default: 240 minutes = 4 hours)</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="container-fluid" id="base">
         <div className="card">
@@ -123,6 +157,15 @@ class randomize extends Component {
             </div>
             <div className="row">
               {options}
+            </div>
+            <div className="card mb-3">
+              <div className="card-header">
+                <div className="custom-control custom-switch">
+                  <input type="checkbox" name="" id="race" onClick={this.toggleCheck} className="custom-control-input"/>
+                  <label htmlFor="race" className="custom-control-label"><span className="font-weight-bolder">Race?</span>  Disables immediate access to the spoiler log, which will become available until you enter in the unlock code or after a specified duration after seed generation.</label>
+                </div>
+              </div>  
+              {raceBody}
             </div>
             <button className="btn btn-primary btn-lg btn-block" disabled={!this.state.valid} onClick={this.generate}>Randomize {this.state.game}</button>
           </div>

@@ -2,15 +2,55 @@ const express = require('express');
 const router = express.Router();
 const exec = require('child_process').execFile;
 const fs = require('fs');
+
 // For encoding the seed string, returns original seed data if module not found (module not available on git)
 const seedHelper = require('../seedhelper/seedhelper') || function(nameline){ return null};
+
 const Base = require('../models/Base');
 const Addr = require('../models/Addr');
 const OOS = require('../models/OOSSeed');
 const OOA = require('../models/OOASeed');
+const logParse = require('../utility/logparse');
 
 const version = require('../base/version');
 const argsBase = ['-hard', '-treewarp', '-dungeons', '-portals'];
+
+function saveSeed(res, game, seedBase, romFile, files) {
+  let seedCollection = game === 'oos' ? OOS : OOA;
+  const rom = fs.readFileSync(romFile);
+  Addr.find({game: game})
+    .sort({date: -1})
+    .then(results =>{
+      const result = results[0];
+      const addrs = result.patchData;
+      Base.find({game: game, version: version})
+        .sort({date: -1})
+        .then(bases => {
+          // Base patch db entry needed so each seed has the correct fixes to the version if used after a new release
+          const base = bases[0];
+          const seedData = []
+          // Only need to read a few hundred bytes from generated rom that is seed specific compared to all 1,048,576 bytes of two rom files
+          addrs.forEach(offset =>{
+            bytePatch = {};
+            rom.readUInt8(offset);
+            bytePatch.offset = offset;
+            bytePatch.data = rom.readUInt8(offset);
+            seedData.push(bytePatch);
+          })
+
+          const newSeed = new seedCollection(seedBase);
+          newSeed.base = base.id;
+          newSeed.patchData = seedData;
+          
+          newSeed.save().then( saved => { 
+            // Remove generated files and free some space 
+            files.forEach(file => fs.unlinkSync(file))                         
+            console.log("patch created");
+            return res.send(`/${game}/${newSeed.seed}`);
+          });                
+        });            
+    });  
+}
 
 router.get('/version', (req, res)=>{
   res.json({version: version})
@@ -24,7 +64,12 @@ router.post('/randomize', (req,res)=>{
   *   treeWarp:      Boolean
   *   dungeons:      Boolean
   *   portals:       Boolean
+  *   race:          Boolean
   * 
+  * 
+  * Optional parameters:
+  *   unlockCode:   String
+  *   unlockTime:   Number
   * Returns a String containing the url for the seed page
   */
   const game = req.body.game;
@@ -39,79 +84,61 @@ router.post('/randomize', (req,res)=>{
   const execArgs = argsBase.filter((arg, i) => {return argsArray[i]});
   const pass1 = execArgs.map(arg => arg);
   // No log created with race flag. Create 1 pass normally to get a log file, then second pass add race and plan
-  pass1.push('-seed', '12345678','-noui', gameFile);
-  let nameBase = `${game}rando_${version}_`;
-  let seedCollection = game === 'oos' ? OOS : OOA;
+  pass1.push('-noui', gameFile);
   exec(randoExec, pass1, (err, out, stderr) => {
     if (err) {
       console.log("error");
       console.log(err);
       return res.send(err);      
-    } else {
-      console.log(execArgs);
-      
-      const files = out.toString().split('\n').filter(line => line.includes(version)) // Should be array of [rom , log]
-      const romFile =   files[0].split(' ').filter(word => word.includes(version))[0] // just the filename out of the string
-      const logFile =   files[1].split(' ').filter(word => word.includes(version))[0] // just the filename out of the string
-      const seed = romFile.split('_')[2].split('-')[0] // breaks the filename into different segments [base, version, seed] and then remove flag chars
+    } else {      
+      // Should be array of [rom , log]
+      const files = out.toString().split('\n').filter(line => line.includes(version))
+      // Get just the filename out of the strings
+      const romFile =   files[0].split(' ').filter(word => word.includes(version))[0] 
+      const logFile =   files[1].split(' ').filter(word => word.includes(version))[0]
+      const dataFiles = [romFile, logFile];
+
+      // Breaks the filename into different segments [base, version, seed] and then remove flag chars
+      const seed = romFile.split('_')[2].split('-')[0]
       const args = execArgs.join('$');
-      execArgs.push('-plan', logFile,'-race', '-noui', gameFile);
       const encodedSeed = seedHelper(`${seed}${game}${args}`) || seed;
-      console.log(seed);
-      console.log(encodedSeed);
-      fs.readFile( romFile, (err2, target)=>{
-        if (err2) {
-          console.log("error 2");
-          console.log(err2);
-          res.send(err2);
-          return
-        }
-        
-        Addr.find({game: game})
-          .sort({date: -1})
-          .then(results =>{
-            const result = results[0];
-            const addrs = result.patchData;
-            Base.find({game: game, version: version})
-              .sort({date: -1})
-              .then(bases => {
-                // Base patch db entry needed so each seed has the correct fixes to the version if used after a new release
-                const base = bases[0];
-                const seedData = []
-                // Only need to read a few hundred bytes from generated rom that is seed specific compared to all 1,048,576 bytes of two rom files
-                addrs.forEach(offset =>{
-                  bytePatch = {};
-                  target.readUInt8(offset);
-                  bytePatch.offset = offset;
-                  bytePatch.data = target.readUInt8(offset);
-                  seedData.push(bytePatch);
-                })
+      const logFileData = fs.readFileSync(logFile, {encoding: 'utf8'});
+      const parsedLog = logParse(logFileData, game);
+      // const stringified = JSON.stringify(parsedLog);
+      const newSeedBase = {
+        seed: encodedSeed,
+        baseSeed: seed,
+        hard: argsArray[0],
+        treewarp: argsArray[1],
+        dungeons: argsArray[2],
+        spoiler: parsedLog,
+        locked: req.body.race || false
+      }
 
-                // argsArray = [req.body.hardMode || false, req.body.treeWarp || false, req.body.dungeons || false, req.body.portals || false]
-                const newSeed = new seedCollection({
-                  seed: encodedSeed,
-                  baseSeed: seed,  // To be removed from future versions
-                  patchData: seedData,
-                  hard: argsArray[0],
-                  treewarp: argsArray[1],
-                  dungeons: argsArray[2],
-                  base: base.id
-                })
+      if (game === 'oos') {
+        newSeedBase.portals = argsArray[3];
+      }
 
-                if (game === 'oos') {
-                  newSeed.portals = argsArray[3];
-                }
-                
-                newSeed.save().then( saved => {  
-                  // Remove generated files and free some space              
-                  fs.unlink(romFile, err=>{if (err) console.log(err)});
-                  fs.unlink(logFile,err=>{if (err) console.log(err)});
-                  console.log("patch created");
-                  return res.send(`/${game}/${encodedSeed}`);
-                });                
-              });            
-          });     
+      // If race, use plan to make the race rom so seed info isn't shown
+      if (newSeedBase.locked){
+        execArgs.push('-plan', logFile, '-race', '-noui', gameFile);
+        exec(randoExec, execArgs, (err2, out2, stderr) => {
+          if (err2) {
+            console.log("error");
+            console.log(err2);
+            return res.send(err2);      
+          } else {
+            // Should be array of [rom , log]
+            const files2 = out2.toString().split('\n').filter(line => line.includes(version));
+            // Get just the filename out of the strings
+            const raceFile =   files2[0].split(' ').filter(word => word.includes(version))[0];
+            dataFiles.push(raceFile)
+            saveSeed(res, game, newSeedBase, raceFile, dataFiles)
+          }
         });
+      } else {
+        saveSeed(res, game, newSeedBase, romFile, dataFiles)
+      }
     }
   });
 });
@@ -130,9 +157,15 @@ router.get('/:game/:id', (req,res)=>{
   *   hard: Boolean indicating if hard mode was enabled
   *   treewarp: Boolean indicating if treewarp was enabled
   *   dungeons: Boolean indicating if dungeon shuffle was enabled
-  *   portals: Boolean indicating if subrosia portal was enabled  *   
+  *   portals: Boolean indicating if subrosia portal was enabled
+  *   locked: Boolean if spoiler is available
+  *   spoiler: Empty Object if locked, or Object containing spoiler data
+  *   genTime: Timestring indicating when rom was made
+  *   timeout: Number of seconds spoiler to remain locked from genTime
+  *   unlockTime: Timestring indicating when seed got unlocked   
   *   
   */
+
   const game = req.params.game;
   let seedCollection;
   switch (game){
@@ -162,6 +195,11 @@ router.get('/:game/:id', (req,res)=>{
             hard: seed.hard,
             treewarp: seed.treewarp,
             dungeons: seed.dungeons,
+            locked: seed.locked,
+            spoiler: seed.spoiler,
+            genTime: seed.genTime,
+            timeout: seed.timeout,
+            unlockTime: seed.unlockTime,
           }
           if (game === "oos"){
             response.portals = seed.portals

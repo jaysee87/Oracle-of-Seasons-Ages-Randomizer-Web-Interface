@@ -19,3 +19,5 @@ nodemon.json
 *.exe
 /base/oracles-randomizer
 seedhelper.zip
+*.gbc
+*-log.gbc

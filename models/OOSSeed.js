@@ -37,6 +37,11 @@ const OOSSchema = new Schema({
     default: false,
   },
 
+  spoiler: {
+    type: Object,
+    required: true,
+  },
+
   locked: {
     type: Boolean,
     default: false,
@@ -56,6 +61,10 @@ const OOSSchema = new Schema({
   unlockTime: {
     type: Number,
     default: 0,
+  },
+
+  unlockCode: {
+    type: String,
   },
 
   base: {
