@@ -45,7 +45,7 @@ const OOASchema = new Schema({
   // seconds since epoch
   genTime: {
     type: Number,
-    default: (new Date).getTime()/1000,
+    default: Math.floor((new Date).valueOf()/1000),
   },
 
   timeout: {

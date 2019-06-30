@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {checkStore} from '../Utility/storage';
+import Sprite from './Sprite';
 import Spinner from '../Spinner/Spinner';
 import FileSelect from '../Common/FileSelect';
 import Log from '../Log/Log';
+import flags from '../Utility/flags';
 import './Seed.css';
 
 class Seed extends Component {
@@ -13,14 +15,56 @@ class Seed extends Component {
       loading: true,
       seedData: null,
       game: null,
+      sprite: 0,
+      sprites: [],
+      palette: 0
     }
 
     this.setValid = this.setValid.bind(this);
     this.checkGame = this.checkGame.bind(this);
+    this.setOptions = this.setOptions.bind(this);
+    this.setSpoiler = this.setSpoiler.bind(this);
+    this.setSprite = this.setSprite.bind(this);
   }
 
   checkGame(){
     checkStore(this.state.game || "Seasons", this.setValid);
+  }
+
+  setOptions(gameTitle){
+    return flags(gameTitle).map(flag=>{
+      const liClass = ['list-group-item', 'text-white'];
+      const iClass = ['fas', 'mr-2'];
+      let toggled = "On"
+      if (this.state.seedData[flag[0]]){
+        liClass.push('bg-success');
+        iClass.push('fa-check');
+      } else {
+        liClass.push('bg-danger');
+        iClass.push('fa-times');
+        toggled = "Off"
+      }
+
+      return (<li key={flag[0]} className={liClass.join(' ')}><i className={iClass.join(' ')}></i> {flag[1]} {toggled}</li>)
+    })
+  }
+
+  setSpoiler() {
+    if (this.state.seedData.locked){
+      const {genTime, timeout} = this.state.seedData
+      const newDateTimeString = new Date(genTime + timeout)
+      return(
+        <div>This spoiler is currently locked until {newDateTimeString.toTimeString()}</div>
+      )
+    } else {
+      return (<Log game={this.props.match.params.game} mode="seed" spoiler={this.state.seedData.spoiler}/>);
+    }
+  }
+
+  setSprite(e,key) {
+    this.setState({
+      [key]: e.target.value
+    });
   }
 
   setValid(valid){
@@ -42,11 +86,15 @@ class Seed extends Component {
     const storageLabel = game === 'oos' ? 'Seasons' : 'Ages';
     axios.get(`/api/${game}/${seed}`)
       .then(res => {
-        this.setState({
-          loading: false,
-          seedData: res.data,
-          game: storageLabel
-        })
+        axios.get('/sprites/sprites.json')
+          .then(sres=>{
+            this.setState({
+              loading: false,
+              seedData: res.data,
+              game: storageLabel,
+              sprites: sres.data
+            })
+          })
       })
       .catch(err => {
         console.log('Unable to retrieve');
@@ -64,13 +112,15 @@ class Seed extends Component {
     let titleText;
     const gameTitle = game === "oos" ? "Seasons" : "Ages"
 
-    // TODO Create array of toggled features and map to JSX
     // TODO Create array of sprites and map to JSX
 
     if (this.state.loading) {
       bodyContent = (<div className="card-body"><Spinner /></div>)
       titleText = `Fetching Oracle of ${gameTitle} Seed...`
     } else {
+      const options = this.setOptions(gameTitle);
+      const spoilerLog = this.setSpoiler();
+
       bodyContent = (
         <div className="card-body">   
           <a href={`/${game}/${seed}`}>Shareable Link</a>
@@ -78,30 +128,17 @@ class Seed extends Component {
             <div className="card">
               <div className="card-body">
                 <ul className="list-group list-group-flush">
-                  
-                  <li className="list-group-item text-white bg-success"><i className="fas fa-check"></i> Hard Mode On</li>
-
-                
-                  <li className="list-group-item text-white bg-success"><i className="fas fa-check"></i> Tree Warp Enabled</li>
+                  {options}
                 </ul>
               </div>
             </div>
             <div className="card">
-              <div className="mt-4 media">
-                <img src="/img/link.gif"  alt="Link-Sprite" className="mr-3" id="link-sprite"></img>
-              
-                <div className="media-body">
-                  <h3>Link Palette Selection</h3>
-                  <div className="input-group">
-                    <select className="custom-select" name="paletteIndex" id="paletteIndex">
-                      <option value="0">Green</option>
-                      <option value="1">Blue</option>
-                      <option value="2">Red</option>
-                      <option value="3">Gold</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+              <Sprite 
+                selectedSprite={this.state.sprite}
+                selectedPalette={this.state.selectedPalette}
+                sprites={this.state.sprites}
+                setSprite={this.setSprite}
+              />
             </div>
           </div>
     
@@ -109,7 +146,7 @@ class Seed extends Component {
             <button type="button" className="btn btn-primary btn-block col-3" id="music" disabled={!this.state.valid}>Save Rom</button>
             <FileSelect game={game === 'oos' ? 'Seasons' : 'Ages'} inline={true} checkGame={this.checkGame} valid={this.state.valid}/>
           </div>
-          <Log game={this.props.match.params.game} mode="seed" spoiler={seedData.spoiler}/>
+          {spoilerLog}
         </div>
       )
       titleText = `Oracle of ${gameTitle} (${seedData.version})`

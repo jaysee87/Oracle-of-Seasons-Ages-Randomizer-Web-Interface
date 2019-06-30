@@ -69,7 +69,7 @@ router.post('/randomize', (req,res)=>{
   * 
   * Optional parameters:
   *   unlockCode:   String
-  *   unlockTime:   Number
+  *   unlockTimeout:   Number
   * Returns a String containing the url for the seed page
   */
   const game = req.body.game;
@@ -115,6 +115,11 @@ router.post('/randomize', (req,res)=>{
         locked: req.body.race || false
       }
 
+      if (req.body.race){
+        newSeedBase.unlockCode = req.body.unlockCode;
+        newSeedBase.timeout = req.body.unlockTimeout;
+      }
+      
       if (game === 'oos') {
         newSeedBase.portals = argsArray[3];
       }
@@ -204,6 +209,13 @@ router.get('/:game/:id', (req,res)=>{
           if (game === "oos"){
             response.portals = seed.portals
           }
+          
+          if (response.locked && response.genTime + response.timeout < (new Date).valueOf()/1000){
+            response.spoiler = {};
+          } else {
+            response.locked = false;
+          }
+
           res.send(response);
         });
     } else{
