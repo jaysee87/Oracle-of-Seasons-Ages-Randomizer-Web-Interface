@@ -1,5 +1,4 @@
 const FileSaver = require('file-saver');
-const BlobUtil = require('blob-util');
 
 import {parseIPS} from './parseIPS';
 import {readPointer,writePointer} from './romhelper';
@@ -234,36 +233,4 @@ export function loadDownloadListeners(gameStore){
       FileSaver.saveAs(finishedRom, `${chosenGame}-${seedstring}${argsString}.gbc`);
     }
   }
-  /*
-  *  gifs are indexed color gifs, function just edits the palette data and rerenders the gif to the selected
-  *  palette.
-  */
-  function displayLink(){
-    if (spriteImages[linkSprite])
-      display(spriteImages[linkSprite]);
-    else {
-      const gifReq = new Request(`/img/${linkSprite}.gif`, {method: "GET"});
-      fetch(gifReq).then(gifRes=>{
-        gifRes.arrayBuffer().then(buffer=>{
-          spriteImages[linkSprite] = buffer;
-          display(buffer);
-        });
-      });
-    }
-
-    function display(buffer) {
-      const gif_array = new Uint8Array(buffer);
-      if (linkPalette > -1 && linkPalette < 6){
-        palette[linkPalette].forEach((val,i)=>{
-          gif_array[i + 13] = val;
-        })
-      }
-      const blob = new Blob([gif_array], { type: 'image/gif'});
-      const baseURL = window.URL;
-      var imgURL = baseURL.createObjectURL(blob);
-      imgEl.src = imgURL;
-    }
-  }
- 
-  displayLink(parseInt(paletteSelect.value) || 0);
 }

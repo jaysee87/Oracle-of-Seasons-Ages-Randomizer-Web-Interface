@@ -11,12 +11,20 @@ const checksums = {
   Seasons: 'f2dc6c4e093e4f8c6cbea80e8dbd62cb'
 }
 
-export function checkStore(game, cb){
-  console.log(game);
+export function getBuffer(game, gamecode, seed, cb){
   storage.getItem(game)
     .then( data => {
-      console.log(data !== null);
-      cb(data !== null);
+      cb(data,gamecode,seed);
+    })
+    .catch( err => {
+      console.log("error");
+    })
+}
+
+export function checkStore(game, cb){
+  storage.getItem(game)
+    .then( data => {
+      cb(data);
     })
     .catch( err => {
       console.log("error");
@@ -41,6 +49,4 @@ export function checkSum(file, game, cb) {
     } 
   }
   reader.readAsArrayBuffer(file);
-  console.log(file);
-  console.log(game);
 }

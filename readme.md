@@ -11,7 +11,7 @@ $ npm run install-both
 ```
 
 ## Set up Base entries in DB
-You will need [Python](https://www.python.org/) for the db setup script, it is CPU intensive and takes roughly 10 minutes to run at this time. You will also need the module Naked installed.
+You will need [Python](https://www.python.org/) for the db setup script, it is CPU intensive and takes roughly 10 minutes to run at this time. You will also need the module Naked installed. You will need to have your randomizer executable and vanilla roms renamed to OOA.blob and OOS.blob, as they are not provided in this repo.
 
 ```
 $ pip install Naked
@@ -29,10 +29,14 @@ Then in the utility directory
 On Linux/MacOSX
 $ mkdir ages seasons
 $ python3 dbBuild.py
+$ local
+$ y
   -- or --
 On Windows Command Prompt
 $ mkdir ages seasons
 $ python dbBuild.py
+$ local
+$ y
 ```
 
 ## Running the Web Interface
@@ -43,5 +47,5 @@ $ npm run dev
 ```
 
 ## Future Goals
-* Title screen/File Screen edits
+* Plandomizer UI
 * Handle sprite selection options via backend or external json list

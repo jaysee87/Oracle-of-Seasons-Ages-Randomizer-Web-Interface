@@ -23,8 +23,7 @@ function findUnequal(file){
   let j = 0;
   for (i=0; i < base.length; i++){
     // output += base.readUInt8(i).toString(16) + " ";
-    if (base.readUInt8(i) != rando.readUInt8(i)){
-      // console.log(i.toString(16));
+    if (base.readUInt8(i) !== rando.readUInt8(i)){
       if (!(addr.includes(i))){
         addr.push(i);
         j++;

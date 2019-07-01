@@ -6,9 +6,9 @@ import sys
 from Naked.toolshed.shell import execute_js
 
 if sys.platform == "win32":
-    oracles_randomizer_exe = "./oracles-randomizer.exe"
+    oracles_randomizer_exe = "../base/oracles-randomizer.exe"
 else:
-    oracles_randomizer_exe = "../oracles-randomizer"
+    oracles_randomizer_exe = "../base/oracles-randomizer.exe"
 
 
 FNULL = open(os.devnull, 'w')
@@ -78,7 +78,8 @@ if makeroms:
         print("Ages batch {} done".format(ages + 1))
     print('Seed generation time: {} seconds'.format(time.time() - start))
 
-success = execute_js('compare.js', nodeArgs)
+seasonssuccess = execute_js('ooscompare.js', nodeArgs)
+agessuccess = execute_js('ooacompare.js', nodeArgs)
 
 while threading.active_count() > 1:
     pass

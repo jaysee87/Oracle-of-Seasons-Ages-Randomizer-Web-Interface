@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {checkStore} from '../Utility/storage';
+import {checkStore, getBuffer} from '../Utility/storage';
 import Sprite from './Sprite';
 import Spinner from '../Spinner/Spinner';
 import FileSelect from '../Common/FileSelect';
 import Log from '../Log/Log';
 import flags from '../Utility/flags';
+import Patcher from '../Utility/patcher';
 import './Seed.css';
 
 class Seed extends Component {
@@ -25,10 +26,15 @@ class Seed extends Component {
     this.setOptions = this.setOptions.bind(this);
     this.setSpoiler = this.setSpoiler.bind(this);
     this.setSprite = this.setSprite.bind(this);
+    this.patchAndDownload = this.patchAndDownload.bind(this)
   }
 
   checkGame(){
     checkStore(this.state.game || "Seasons", this.setValid);
+  }
+
+  patchAndDownload(buffer, game, seed){
+    Patcher(game,buffer,this.state.seedData,seed,this.state.sprites,this.state.sprite,this.state.palette)
   }
 
   setOptions(gameTitle){
@@ -63,7 +69,7 @@ class Seed extends Component {
 
   setSprite(e,key) {
     this.setState({
-      [key]: e.target.value
+      [key]: parseInt(e.target.value)
     });
   }
 
@@ -135,7 +141,7 @@ class Seed extends Component {
             <div className="card">
               <Sprite 
                 selectedSprite={this.state.sprite}
-                selectedPalette={this.state.selectedPalette}
+                selectedPalette={this.state.palette}
                 sprites={this.state.sprites}
                 setSprite={this.setSprite}
               />
@@ -143,7 +149,14 @@ class Seed extends Component {
           </div>
     
           <div className="row my-5 px-4">
-            <button type="button" className="btn btn-primary btn-block col-3" id="music" disabled={!this.state.valid}>Save Rom</button>
+            <button
+              type="button"
+              className="btn btn-primary btn-block col-3"
+              disabled={!this.state.valid}
+              onClick={e=>getBuffer(this.state.game, game, seed, this.patchAndDownload)}
+            > 
+                Save Rom
+            </button>
             <FileSelect game={game === 'oos' ? 'Seasons' : 'Ages'} inline={true} checkGame={this.checkGame} valid={this.state.valid}/>
           </div>
           {spoilerLog}

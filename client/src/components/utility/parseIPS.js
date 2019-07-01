@@ -4,7 +4,7 @@ export function parseIPS(rom,ipsBuffer){
   // Ignore first 5 bytes (offsets 0-4)
   var i = 5;
   while (true) {
-    if (ips.getUint8(i) == 0x45 && ips.getUint8(i+1) == 0x4f && ips.getUint8(i+2) == 0x46){ // EOF
+    if (ips.getUint8(i) === 0x45 && ips.getUint8(i+1) === 0x4f && ips.getUint8(i+2) === 0x46){ // EOF
       break;
     }
     /* 
@@ -12,7 +12,7 @@ export function parseIPS(rom,ipsBuffer){
       i+3, i+4 = patch length in bytes OR 0000 = RLE record 
       i+5 and beyond: data to patch
     */
-    const offset = (ips.getUint16(i)<<8) | ips.getUint8(i+2);
+    let offset = (ips.getUint16(i)<<8) | ips.getUint8(i+2);
     i+=3;
     let length = ips.getUint16(i);
     i+=2;
