@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import FileSelect from '../Common/FileSelect';
-import CheckBox from '../Common/CheckBox';
-import {checkStore} from '../Utility/storage';
+import FileSelect from '../common/FileSelect';
+import CheckBox from '../common/CheckBox';
+import {checkStore} from '../utility/storage';
 import uuid from 'uuid';
 import axios from 'axios';
-import flags from '../Utility/flags';
+import flags from '../utility/flags';
 
 const games = {
   oos: "Seasons",
