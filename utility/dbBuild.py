@@ -2,13 +2,13 @@ import threading
 import os
 import subprocess
 import time
-import sys
+import platform
 from Naked.toolshed.shell import execute_js
 
-if sys.platform == "win32":
+if platform.system() == "Windows":
     oracles_randomizer_exe = "../base/oracles-randomizer.exe"
 else:
-    oracles_randomizer_exe = "../base/oracles-randomizer.exe"
+    oracles_randomizer_exe = "../../base/oracles-randomizer"
 
 
 FNULL = open(os.devnull, 'w')
