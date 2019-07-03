@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import toTitleCase from '../Utility/titlecase';
+import toTitleCase from '../utility/titlecase';
 
 class Log extends Component {
   constructor(props){

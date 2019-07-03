@@ -16,5 +16,11 @@
     "defaultPalette": 5,
     "display": "Demonic Link",
     "separatePatches": false
+  },
+  {
+    "name": "likelike",
+    "defaultPalette": 3,
+    "display": "Like-Like",
+    "separatePatches": true
   }
 ]

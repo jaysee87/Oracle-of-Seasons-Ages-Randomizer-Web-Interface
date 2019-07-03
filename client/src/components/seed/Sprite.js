@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Palettes from '../Utility/palettes';
+import Palettes from '../utility/palettes';
 const palettes = Palettes();
 const spriteBuffers = [];
 
