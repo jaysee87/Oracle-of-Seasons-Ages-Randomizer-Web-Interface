@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import toTitleCase from '../utility/titlecase';
+import toTitleCase from '../Utility/Titlecase';
 
 class Log extends Component {
   constructor(props){
@@ -98,8 +98,8 @@ class Log extends Component {
 
   componentWillMount(){
     if (['ooa', 'oos'].includes(this.props.game)){
-      const locations = require(`./${this.props.game}/locations.json`);
-      const items = require(`./${this.props.game}/items.json`);
+      const locations = require(`./${this.props.game.toUpperCase()}/Locations.json`);
+      const items = require(`./${this.props.game.toUpperCase()}/Items.json`);
       if (this.props.mode ===  'seed'){        
         locations.keys.unshift('playthrough');
         Object.keys(this.props.spoiler).forEach(key => {

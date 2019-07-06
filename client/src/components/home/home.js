@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Home extends Component {
+class Home extends Component {
   render() {
     return (
       <div className="container-fluid" id="base">
@@ -28,3 +28,5 @@ export default class Home extends Component {
     )
   }
 }
+
+export default Home;

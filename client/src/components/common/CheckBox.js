@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 function CheckBox({value, label, info, checked, onCheck}) {
   const iconClass = checked ? "fas fa-check mr-2" : "fas fa-times mr-2"

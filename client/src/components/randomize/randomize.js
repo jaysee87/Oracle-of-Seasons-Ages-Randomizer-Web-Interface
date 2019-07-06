@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import FileSelect from '../common/FileSelect';
-import CheckBox from '../common/CheckBox';
-import {checkStore} from '../utility/storage';
+import FileSelect from '../Common/FileSelect';
+import CheckBox from '../Common/CheckBox';
+import {checkStore} from '../Utility/Storage';
 import uuid from 'uuid';
 import axios from 'axios';
-import flags from '../utility/flags';
+import flags from '../Utility/Flags';
 
 const games = {
   oos: "Seasons",
   ooa: "Ages"
 }
 
-class randomize extends Component {
+class Randomize extends Component {
   constructor(){
     super();
     this.state = {
@@ -32,6 +32,7 @@ class randomize extends Component {
     this.toggleRace = this.toggleRace.bind(this);
     this.checkGame = this.checkGame.bind(this);
     this.generate = this.generate.bind(this);
+    this.setTimeout = this.setTimeout.bind(this);
   }
 
   selectGame(e){
@@ -61,6 +62,12 @@ class randomize extends Component {
     this.setState({
       race: bool
     })
+  }
+
+  setTimeout(e){
+    this.setState({
+      timeout: parseInt(e.target.value)
+    });
   }
 
   generate(e){
@@ -135,7 +142,7 @@ class randomize extends Component {
             <div className="col">
               <div className="form-group">
                 <h6>Spoiler Lock Duration</h6>
-                <input type="number" name="timeout" id="timeout" className="form-control" placeholder="0" min="0"/>
+                <input type="number" name="timeout" id="timeout" className="form-control" onChange={this.setTimeout} placeholder="0" min="0"/>
               </div>             
               <small className="text-black-50 mt-3">How long in minutes before the spoiler unlocks (default: 240 minutes = 4 hours)</small>
             </div>
@@ -179,4 +186,4 @@ class randomize extends Component {
   }
 }
 
-export default randomize;
+export default Randomize;

@@ -42,8 +42,15 @@ $ y
 ## Running the Web Interface
 
 After all the npm modules are installed, front end compiled, and db entries created, go to the project root directory:
+
+With nodemon installed globally `npm i -g nodemon` (useful for live reload on edits on server side scripts)
 ```
 $ npm run dev
+```
+
+Without nodemon install to run only, and manually restart after edits on server side
+```
+$ npm run both
 ```
 
 ## Future Goals

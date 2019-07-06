@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {checkStore, getBuffer} from '../utility/storage';
+import {checkStore, getBuffer} from '../Utility/Storage';
 import Sprite from './Sprite';
-import Spinner from '../spinner/spinner';
-import FileSelect from '../common/FileSelect';
-import Log from '../log/Log';
-import flags from '../utility/flags';
-import Patcher from '../utility/patcher';
-import './seed.css';
+import Spinner from '../Spinner/Spinner';
+import FileSelect from '../Common/FileSelect';
+import Log from '../Log/Log';
+import flags from '../Utility/Flags';
+import Patcher from '../Utility/Patcher';
+import './Seed.css';
 
 class Seed extends Component {
   constructor(){

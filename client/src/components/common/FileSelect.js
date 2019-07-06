@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {checkSum} from '../utility/storage';
+import {checkSum} from '../Utility/Storage';
 
 class FileSelect extends Component{
   constructor(){

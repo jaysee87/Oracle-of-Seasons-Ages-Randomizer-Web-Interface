@@ -4,11 +4,11 @@ const exec = require('child_process').execFile;
 const fs = require('fs');
 
 // For encoding the seed string, returns original seed data if module not found (module not added to git)
+let seedHelper
 try{
-  let seedHelper = require('../seedhelper/seedhelper')
+  seedHelper = require('../seedhelper/seedhelper');
 }
 catch(err){
-  // console.log(err)
   seedHelper = function(inputLine){return inputLine;};
 }
 
@@ -110,7 +110,7 @@ router.post('/randomize', (req,res)=>{
       // Breaks the filename into different segments [base, version, seed] and then remove flag chars
       const seed = romFile.split('_')[2].split('-')[0]
       const args = execArgs.join('$');
-      const encodedSeed = seedHelper(`${seed}_${game}_${version}_${args}`) || seed;
+      const encodedSeed = seedHelper(`${seed}_${game}_${version}_${args}`);
       const logFileData = fs.readFileSync(logFile, {encoding: 'utf8'});
       const parsedLog = logParse(logFileData, game);
       // const stringified = JSON.stringify(parsedLog);
@@ -219,7 +219,9 @@ router.get('/:game/:id', (req,res)=>{
             response.portals = seed.portals
           }
           
-          if (response.locked && response.genTime + response.timeout < (new Date).valueOf()/1000){
+          const curTime = Math.floor((new Date).valueOf()/1000);
+          console.log(`Now        : ${curTime}\nUnlock Time: ${response.genTime + response.timeout}`);
+          if (response.locked && response.genTime + response.timeout > curTime){
             response.spoiler = {};
           } else {
             response.locked = false;
