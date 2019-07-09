@@ -18,7 +18,10 @@ class Seed extends Component {
       game: null,
       sprite: 0,
       sprites: [],
-      palette: 0
+      palette: 0,
+      unlock: false,
+      unlockcode: '',
+      unlocking: false,
     }
 
     this.setValid = this.setValid.bind(this);
@@ -26,7 +29,9 @@ class Seed extends Component {
     this.setOptions = this.setOptions.bind(this);
     this.setSpoiler = this.setSpoiler.bind(this);
     this.setSprite = this.setSprite.bind(this);
-    this.patchAndDownload = this.patchAndDownload.bind(this)
+    this.patchAndDownload = this.patchAndDownload.bind(this);
+    this.setUnlockVisibility = this.setUnlockVisibility.bind(this);
+    this.checkUnlockCode = this.checkUnlockCode.bind(this);
   }
 
   checkGame(){
@@ -58,9 +63,13 @@ class Seed extends Component {
   setSpoiler() {
     if (this.state.seedData.locked){
       const {genTime, timeout} = this.state.seedData
-      const newDateTimeString = new Date(genTime + timeout)
+      const newDateTimeString = new Date((genTime + timeout) * 1000)
       return(
-        <div>This spoiler is currently locked until {newDateTimeString.toTimeString()}</div>
+        <div>
+          <p>This spoiler is currently locked until {newDateTimeString.toDateString()} {newDateTimeString.toTimeString()}</p>
+          <small>Have an unlock code? <a href="/" onClick={e=>this.setUnlockVisibility(e) } id='toggle-unlock-on'>Click Here!</a></small>
+          
+        </div>
       )
     } else {
       return (<Log game={this.props.match.params.game} mode="seed" spoiler={this.state.seedData.spoiler}/>);
@@ -79,6 +88,32 @@ class Seed extends Component {
         valid: valid
       })
     }
+  }
+
+  setUnlockVisibility(e){
+    e.preventDefault();
+    if (e.target.id.includes('toggle-unlock')){
+      const newBool = !this.state.unlock;
+      this.setState({
+        unlock: newBool
+      })
+    }
+  }
+
+
+  checkUnlockCode(e){
+    this.setState({unlocking: true});
+    const {game, seed} = this.props.match.params;
+    axios.put(`/api/${game}/${seed}/${this.state.unlockcode}`)
+      .then(res => {
+        window.location.reload();
+      }).catch(err =>{
+        console.log(err);
+        this.setState({
+          invalidCode: true,
+          unlocking: false,
+        });
+      })
   }
 
   componentWillMount(){
@@ -128,7 +163,7 @@ class Seed extends Component {
       const spoilerLog = this.setSpoiler();
 
       bodyContent = (
-        <div className="card-body">   
+        <div className="card-body overflow-auto">   
           <a href={`/${game}/${seed}`}>Shareable Link</a>
           <div className="card-group">
             <div className="card">
@@ -164,11 +199,60 @@ class Seed extends Component {
       )
       titleText = `Oracle of ${gameTitle} (${seedData.version})`
     }
+    const inputgroupclassnames = ['input-group', 'mb-3'];
+    let errormessage = '';
+    if (this.state.invalidCode){
+      inputgroupclassnames.push('border','border-danger');
+      errormessage = 'Invalid Unlock Code';
+    }
+  
+    let unlockBody = (
+      <div className="card-body">
+        <span className="text-danger">{errormessage}</span>
+        <div className={inputgroupclassnames.join(' ')}>
+          <div className="input-group-prepend">
+            <span className="input-group-text code-click" id="inputGroup-sizing-default" onClick={this.checkUnlockCode}>Unlock</span>
+          </div>
+          <input 
+            type="text"
+            className="form-control"
+            onChange={e=>this.setState({unlockcode: e.target.value})}
+            value={this.state.unlockcode}
+          />
+        </div>
+        <button className="btn btn-danger btn-block btn-small" id='toggle-unlock-button'>Close Window</button>
+      </div>
+    );
 
+    if (this.state.unlocking){
+      unlockBody = (
+        <div className="card-body">
+          <Spinner />
+        </div>
+      );
+    }
+
+    const unlock = this.state.unlock ? (
+      <div className="unlock-container" id='toggle-unlock-off' onClick={e=>this.setUnlockVisibility(e)}>
+        <div className="unlock-box">
+        <div className="card">
+          <div className="card-header bg-header">
+            <div className="col">
+              <h3>
+                {this.state.unlocking ? 'Checking code...' : 'Enter unlock code'}
+              </h3>
+            </div>
+          </div>
+          {unlockBody}
+        </div>
+        </div>
+      </div>
+      ) : (<div></div>)
 
     return (
       <div className="container-fluid" id="base">
-        <div className="card">
+        {unlock}
+        <div className="card page-container">
           <div className="card-header bg-header">
             <div className="col">
               <h3>

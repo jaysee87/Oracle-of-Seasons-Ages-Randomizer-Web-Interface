@@ -6,7 +6,7 @@ class Footer extends Component {
     return (
       <footer className="footer fixed-bottom">
         <div className="container-fluid bg-info text-light align-middle">
-          Randomizer ({this.props.version}) by jangler, Interface (v2.0.0) by jaysee87
+          Randomizer ({this.props.version}) by jangler, Interface (v2.0.2) by jaysee87
         </div>
     </footer>
     )

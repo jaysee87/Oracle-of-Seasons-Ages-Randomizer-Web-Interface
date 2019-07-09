@@ -27,3 +27,11 @@ html {
   height: 64px;
   width: 64px;
 }
+
+.page-container {
+  height: calc(100vh - 120px);
+}
+
+.log-container {
+  height: 50%;
+}

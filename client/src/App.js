@@ -30,9 +30,11 @@ class App extends Component {
       <Router>
         <div className="App container-fluid">
             <Header />
-            <Route exact path = "/" component={Home} />
-            <Route exact path = "/randomize" component={Randomize} />
-            <Route path = "/:game/:seed" component={Seed} />
+            <div className="mb-4 page-container">
+              <Route exact path = "/" component={Home} />
+              <Route exact path = "/randomize" component={Randomize} />
+              <Route path = "/:game/:seed" component={Seed} />
+            </div>
             <Footer version={this.state.version}/>
         </div>
       </Router>

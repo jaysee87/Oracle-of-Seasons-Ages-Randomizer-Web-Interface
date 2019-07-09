@@ -103,9 +103,10 @@ class Log extends Component {
       if (this.props.mode ===  'seed'){        
         locations.keys.unshift('playthrough');
         Object.keys(this.props.spoiler).forEach(key => {
+          console.log(key);
           locations[key] = this.props.spoiler[key];
           if (['portals', 'dungeons', 'seasons'].includes(key)){
-
+              locations.keys.push(key);
           }
         })
       }

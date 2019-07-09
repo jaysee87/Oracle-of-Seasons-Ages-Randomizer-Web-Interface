@@ -121,9 +121,9 @@ router.post('/randomize', (req,res)=>{
         treewarp: argsArray[1],
         dungeons: argsArray[2],
         spoiler: parsedLog,
-        locked: req.body.race || false
+        locked: req.body.race || false,
+        genTime: Math.floor((new Date).valueOf()/1000)
       }
-
       if (req.body.race){
         newSeedBase.unlockCode = req.body.unlockCode;
         newSeedBase.timeout = req.body.unlockTimeout;
@@ -220,7 +220,6 @@ router.get('/:game/:id', (req,res)=>{
           }
           
           const curTime = Math.floor((new Date).valueOf()/1000);
-          console.log(`Now        : ${curTime}\nUnlock Time: ${response.genTime + response.timeout}`);
           if (response.locked && response.genTime + response.timeout > curTime){
             response.spoiler = {};
           } else {
@@ -229,6 +228,49 @@ router.get('/:game/:id', (req,res)=>{
 
           res.send(response);
         });
+    } else{
+      res.send('unable to find seed');
+    }
+  }).catch(err =>{
+    console.log(err)
+    res.send('unable to locate');
+  })
+});
+
+router.put('/:game/:id/:unlock', (req,res)=>{
+  /*
+  * Ignores everything from req.body
+  * 
+  * :game should be equal to 'oos' or 'ooa' else it returns an error
+  * :id is the encoded seed id
+  * :unlock is the code to be used to make the spoiler accessible
+  * 
+  * Returns an object with the following key:
+  *   unlocked: Boolean
+  */
+
+  const {game, id, unlock} = req.params;
+  let seedCollection;
+  switch (game){
+    case "ooa":
+      seedCollection = OOA;
+      break;
+    case "oos":
+      seedCollection = OOS;
+      break
+    default:
+      res.status(404).send("Seed not found");
+  }
+
+  // If seed is found, grabs Base patch data, then appends Seed Specific patch data and sent as key "patch" in the response
+  seedCollection.findOne({seed: id}).then(seed=>{
+    if(seed){
+      if (seed.unlockCode !== unlock){
+        res.status(403).json({unlocked: false});
+      } else {
+        seed.locked = false;
+        seed.save().then(saved => res.json({unlocked: true})).catch(err => res.send('error saving'));
+      }
     } else{
       res.send('unable to find seed');
     }
