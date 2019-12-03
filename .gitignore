@@ -10,8 +10,9 @@ nodemon.json
 /utility/seasons/*.gbc
 /utility/ages/*.gbc
 /utility/*.exe
-/base/*.exe
-/public/js/**
+/base/oracles*
+/base/*.blob
+/public/js/*
 /src/node_modules
 /src/dist
 /src/.cache
