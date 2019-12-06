@@ -85,7 +85,9 @@ export default function(game, vanilla, seedData, seed, sprites, spriteIndex, pal
   const flagData = [seedData.hard, seedData.treewarp, seedData.dungeons, seedData.portals || false];
   const appendedFlags = flags.map(flag=>flag[0]).filter((flag,i)=>flagData[i]);
   appendedFlags.unshift(game,'webrando',seed);
-  const rom_array = new Uint8Array(vanilla);
+  const base_array = new Uint8Array(vanilla);
+  const rom_array = Uint8Array.from({length: base_array.length * sprites[spriteIndex].expand});
+  base_array.forEach((data, i) => rom_array[i] = data);
 
   seedData.patch.forEach(bytePatch => rom_array[bytePatch.offset] = bytePatch.data)
 

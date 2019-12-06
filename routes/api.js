@@ -101,6 +101,7 @@ router.post('/randomize', (req,res)=>{
       return res.send(err);      
     } else {      
       // Should be array of [rom , log]
+      console.log(out);
       const files = out.toString().split('\n').filter(line => line.includes(version))
       // Get just the filename out of the strings
       const romFile =   files[0].split(' ').filter(word => word.includes(version))[0] 
