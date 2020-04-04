@@ -12,6 +12,7 @@ nodemon.json
 /utility/*.exe
 /base/oracles*
 /base/*.blob
+/base/eco*
 /public/js/*
 /src/node_modules
 /src/dist
