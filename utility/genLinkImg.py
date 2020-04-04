@@ -17,6 +17,8 @@ paletteScramble = [3, 0, 1, 2]
 IMAGE_SCALE = 4
 TILE_ADDRESS = 0x68240
 
+if '--expanded' in sys.argv:
+    TILE_ADDRESS = 0x100240
 
 def drawTile(img, x, y, address, flipX=False):
     for j in range(0,8):
@@ -36,7 +38,7 @@ def drawTile(img, x, y, address, flipX=False):
 
 
 if len(sys.argv) < 4:
-    print('Usage: ' + sys.argv[0] + ' rom.gbc output_image.gif paletteIndex [--flipped]')
+    print('Usage: ' + sys.argv[0] + ' rom.gbc output_image.gif paletteIndex [--expanded] [--flipped]')
     sys.exit(1)
 
 romFile = open(sys.argv[1], 'rb')
@@ -46,7 +48,7 @@ romFile.close()
 outFilename = sys.argv[2]
 paletteIndex = int(sys.argv[3])
 
-if len(sys.argv) > 4 and sys.argv[4] == '--flipped':
+if len(sys.argv) > 4 and '--flipped' in sys.argv:
     flipped = True
 else:
     flipped = False

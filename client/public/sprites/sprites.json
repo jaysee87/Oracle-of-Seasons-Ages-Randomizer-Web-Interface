@@ -29,7 +29,7 @@
   },
   {
     "name": "nayru",
-    "defaultPalette": 3,
+    "defaultPalette": 1,
     "display": "Nayru",
     "separatePatches": true,
     "expand": 2
